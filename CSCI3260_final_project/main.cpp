@@ -22,6 +22,18 @@ Student Name:
 const int SCR_WIDTH = 800;
 const int SCR_HEIGHT = 600;
 
+// global var
+#define ORIGIN glm::vec3(0.0f)
+Shader shader;
+#define NUM_OBJ 4
+Model* models[NUM_OBJ];
+
+
+void cleanup() {
+	for (int i = 0; i < NUM_OBJ; i++) {
+		delete models[i];
+	}
+}
 
 void get_OpenGL_info()
 {
@@ -38,6 +50,9 @@ void sendDataToOpenGL()
 {
 	//TODO
 	//Load objects and bind to VAO and VBO
+	Model* planet = new Model("resources/object/planet.obj");
+	models[0] = planet;
+
 	//Load textures
 }
 
@@ -52,6 +67,8 @@ void initializedGL(void) //run only once
 
 	//TODO: set up the camera parameters	
 	//TODO: set up the vertex shader and fragment shader
+	shader.setupShader("VertexShaderCode.glsl", "FragmentShaderCode.glsl");
+	shader.use();
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -59,11 +76,18 @@ void initializedGL(void) //run only once
 
 void paintGL(void)  //always run
 {
-	glClearColor(0.7f, 0.7f, 0.7f, 0.5f); //specify the background color, this is just an example
+	glClearColor(0.35f, 0.65f, 0.65f, 1.0f); //specify the background color, this is just an example
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//TODO:
 	//Set lighting information, such as position and color of lighting source
 	//Set transformation matrix
+	 
+	glm::mat4 model = glm::mat4(1.0f);
+	glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.0f, 10.0f) , ORIGIN, glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)(SCR_WIDTH / SCR_HEIGHT), 0.1f, 100.0f);
+
+	models[0]->draw(model, view, proj, shader);
+
 	//Bind different textures
 }
 
@@ -143,6 +167,9 @@ int main(int argc, char* argv[])
 	}
 
 	glfwTerminate();
+
+	// free memory
+	cleanup();
 
 	return 0;
 }

@@ -1,10 +1,28 @@
 #include "Model.h"
 
-#include <vector>
+//#include "Dependencies/GLFW/glfw3.h"
+
+//#include <vector>
 #include <map>
 #include <iostream>
 #include <fstream>
 #include <string>
+
+Model::Model(const char* path){
+	loadOBJ(path);
+	constructVAO();
+}
+
+void Model::draw(glm::mat4 model, glm::mat4 view, glm::mat4 proj, Shader shader) {
+
+	// Make uniform variables
+	shader.setMat4("model", model);
+	shader.setMat4("view", view);
+	shader.setMat4("proj", proj);
+
+	glBindVertexArray(vaoID); // Bind VAO
+	glDrawElements(GL_TRIANGLES, static_cast<unsigned int> (indices.size()), GL_UNSIGNED_INT, 0);
+}
 
 void Model::loadOBJ(const char* objPath)
 {
@@ -115,4 +133,46 @@ void Model::loadOBJ(const char* objPath)
 
 	std::cout << "There are " << num_vertices << " vertices in the obj file.\n" << std::endl;
 	//return model;
+}
+
+void Model::constructVAO() {
+	GLuint vboID, eboID;
+
+	// Save indices size (don't need)
+	//indices_count[id] = static_cast<unsigned int>(obj->indices.size());
+
+	// Generate things
+	//glGenVertexArrays(1, &vaoID[id]);
+	glGenVertexArrays(1, &vaoID);
+	glGenBuffers(1, &vboID);
+	glGenBuffers(1, &eboID);
+
+	// Binding vao vbo
+	glBindVertexArray(vaoID);
+	glBindBuffer(GL_ARRAY_BUFFER, vboID);
+
+	// Store data in to vbo
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &(vertices[0]), GL_STATIC_DRAW);
+
+	//Binding ebo
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboID);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &(indices[0]), GL_STATIC_DRAW);
+
+	// model position
+	glEnableVertexAttribArray(0);	//Enable the vertex attribute to use it later
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+
+	// model uv
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(offsetof(Vertex, uv)));
+
+	// model normal
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(offsetof(Vertex, normal)));
+
+	//Unbind
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 }
