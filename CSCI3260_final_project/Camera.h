@@ -19,6 +19,15 @@ public:
 	float yPress = 0;
 	float zPress = 0;
 
+	float rSpeed = 0.5;
+	float rotation = 0;
+
+	float xoffset;
+	//float yoffset;
+	//bool mouseNeverMoved = true;
+	float lastX = 400;//, lastY = 300;
+	float yaw, pitch = 0;
+	const float sensitivity = 0.2f;
 
 	glm::vec3 Position = glm::vec3(0.0f, 0.0f, 10.0f);
 	glm::vec3 Orientation = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -39,6 +48,9 @@ public:
 	void Matrix(float FOVdeg, float nearPlane, float farPlane, Shader& shader, const char* uniform);
 	// Handles camera inputs
 	void Inputs(GLFWwindow* window);
+
+	//void ProcessMouseMovement_Left(double x, double y);
+	void ProcessMouseMovement_Left(double x);
 
 	void Update();
 

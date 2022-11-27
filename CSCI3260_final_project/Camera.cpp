@@ -28,8 +28,41 @@ void Camera::Inputs(GLFWwindow* window)
 	}
 }
 
+void Camera::ProcessMouseMovement_Left(double x) {
+	/*
+	if (mouseNeverMoved) {
+		lastX = x;
+		lastY = y;
+		mouseNeverMoved = false;
+	}
+	*/
+
+	std::cout << "Initial yaw and pitch: " << yaw << ";\n"; // << pitch << "\n";
+	xoffset = x - lastX;
+	//yoffset = lastY - y;
+
+	lastX = x;
+	//lastY = y;
+
+	xoffset *= sensitivity;
+
+	yaw += xoffset;
+
+	std::cout << "Final yaw: " << yaw << ";\n"; //<< pitch << "\n";
+}
+
 void Camera::Update() {
 	Position.x = speed * xPress;
+	Position.z = speed * zPress;
+
+	Camera::ProcessMouseMovement_Left(rotation);
+
+	glm::vec3 direction;
+	direction.x = cos(glm::radians(yaw)); //* cos(glm::radians(pitch));
+	direction.y = 0.0f; //sin(glm::radians(pitch));
+	direction.z = sin(glm::radians(yaw)); //* cos(glm::radians(pitch));
+	Orientation = glm::normalize(direction);
+
 
 }
 

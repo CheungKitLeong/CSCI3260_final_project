@@ -97,7 +97,7 @@ void paintGL(void)  //run every frame
 	models[0]->draw(model, view, proj, shader);
 
 	model = glm::mat4(1.0f);
-	model = glm::translate(model, camera.Position + camera.Orientation + glm::vec3(0.0f, -0.0f, 0.0f));
+	model = glm::translate(model, camera.Position + camera.Orientation + glm::vec3(0.0f, -0.3f, 0.0f));
 	model = glm::scale(model, glm::vec3(0.0005, 0.0005, 0.0005));
 	models[1]->draw(model, view, proj, shader);
 
@@ -138,10 +138,16 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		camera.xPress += 1;
 	}
 	if (key == GLFW_KEY_UP && action == GLFW_PRESS) {
-		camera.zPress += 1;
+		camera.zPress -= 1;
 	}
 	if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
-		camera.zPress -= 1;
+		camera.zPress += 1;
+	}
+	if (key == GLFW_KEY_A && action == GLFW_PRESS) {
+		camera.rotation -= 1;
+	}
+	if (key == GLFW_KEY_B && action == GLFW_PRESS) {
+		camera.rotation += 1;
 	}
 	
 
