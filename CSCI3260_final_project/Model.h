@@ -5,6 +5,7 @@
 #include "Dependencies/glm/glm.hpp"
 
 #include "Shader.h"
+#include "Texture.h"
 
 #include <vector>
 //#include <string>
@@ -25,9 +26,14 @@ public:
 	std::vector<unsigned int> indices;
 	GLuint vaoID;
 
+	Texture texture;
+
 	Model(const char* path);
+	//~Model();
 
 	void draw(glm::mat4 model, glm::mat4 view, glm::mat4 proj, Shader shader);
+
+	void setTexture(const char* path);
 
 private:
 

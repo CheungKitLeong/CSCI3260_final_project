@@ -13,12 +13,23 @@ Model::Model(const char* path){
 	constructVAO();
 }
 
+//Model::~Model() {
+//	
+//}
+
+void Model::setTexture(const char* path) {
+	texture.setupTexture(path);
+}
+
 void Model::draw(glm::mat4 model, glm::mat4 view, glm::mat4 proj, Shader shader) {
 
 	// Make uniform variables
 	shader.setMat4("model", model);
 	shader.setMat4("view", view);
 	shader.setMat4("proj", proj);
+
+	shader.setInt("textSamp", 0);
+	texture.bind(0);
 
 	glBindVertexArray(vaoID); // Bind VAO
 	glDrawElements(GL_TRIANGLES, static_cast<unsigned int> (indices.size()), GL_UNSIGNED_INT, 0);

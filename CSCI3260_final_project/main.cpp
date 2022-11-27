@@ -53,9 +53,11 @@ void sendDataToOpenGL()
 	//TODO
 	//Load objects and bind to VAO and VBO
 	Model* planet = new Model("resources/object/planet.obj");
+	planet->setTexture("resources/texture/earthTexture.bmp");
 	models[0] = planet;
-	Model* rock = new Model("resources/object/spacecraft.obj");
-	models[1] = rock;
+	Model* spacecraft = new Model("resources/object/spacecraft.obj");
+	spacecraft->setTexture("resources/texture/spacecraftTexture.bmp");
+	models[1] = spacecraft;
 
 	//Load textures
 }
