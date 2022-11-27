@@ -54,7 +54,7 @@ void sendDataToOpenGL()
 	//Load objects and bind to VAO and VBO
 	Model* planet = new Model("resources/object/planet.obj");
 	models[0] = planet;
-	Model* rock = new Model("resources/object/rock.obj");
+	Model* rock = new Model("resources/object/spacecraft.obj");
 	models[1] = rock;
 
 	//Load textures
@@ -91,10 +91,14 @@ void paintGL(void)  //run every frame
 	glm::mat4 model = glm::mat4(1.0f);
 	glm::mat4 view = glm::lookAt(camera.Position , camera.Position + camera.Orientation, camera.Up);
 	glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)(SCR_WIDTH / SCR_HEIGHT), 0.1f, 100.0f);
-
+	
+	
+	model = glm::translate(model, offSet);
 	models[0]->draw(model, view, proj, shader);
 
-	model = glm::translate(model, camera.Position + camera.Orientation + offSet);
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, camera.Position + camera.Orientation + glm::vec3(0.0f, -2.0f, 0.0f););
+	model = glm::scale(model, glm::vec3(0.0005, 0.0005, 0.0005));
 	models[1]->draw(model, view, proj, shader);
 
 	camera.Update();
