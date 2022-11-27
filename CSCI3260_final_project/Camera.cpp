@@ -15,7 +15,8 @@ Camera::Camera()
 }
 */
 
-//Camera::Position = glm::vec3(speed * xPress, 0.0f, 10.0f);
+
+
 
 void Camera::Inputs(GLFWwindow* window)
 {
@@ -26,3 +27,10 @@ void Camera::Inputs(GLFWwindow* window)
 		Position.x = speed * xPress;
 	}
 }
+
+void Camera::Update() {
+	Position.x = speed * xPress;
+
+}
+
+

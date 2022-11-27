@@ -20,7 +20,7 @@ public:
 	float zPress = 0;
 
 
-	glm::vec3 Position = glm::vec3(speed * xPress, 0.0f, 10.0f);
+	glm::vec3 Position = glm::vec3(0.0f, 0.0f, 10.0f);
 	glm::vec3 Orientation = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
 			//***viewMatrix = glm::lookAt(Camera.Position, Camera.LookingPt, Camera.Up);
@@ -39,5 +39,7 @@ public:
 	void Matrix(float FOVdeg, float nearPlane, float farPlane, Shader& shader, const char* uniform);
 	// Handles camera inputs
 	void Inputs(GLFWwindow* window);
+
+	void Update();
 
 };
