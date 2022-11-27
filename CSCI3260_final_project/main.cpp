@@ -86,22 +86,28 @@ void paintGL(void)  //run every frame
 	//Set lighting information, such as position and color of lighting source
 	//Set transformation matrix
 
-	glm::vec3 offSet = glm::vec3(0.0f, 0.0f, -20.0f);
 	 
 	glm::mat4 model = glm::mat4(1.0f);
 	glm::mat4 view = glm::lookAt(camera.Position , camera.Position + camera.Orientation, camera.Up);
 	glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)(SCR_WIDTH / SCR_HEIGHT), 0.1f, 100.0f);
 	
 	
-	model = glm::translate(model, offSet);
+		// *** Drawing object 0: The planet
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -20.0f));
 	models[0]->draw(model, view, proj, shader);
 
+
+
+		// *** Drawing object 1: the spacecraft
+	glm::vec3 planeOffSet = glm::vec3(0.0f, -0.3f, 0.0f);
 	model = glm::mat4(1.0f);
-	model = glm::translate(model, camera.Position + camera.Orientation + glm::vec3(0.0f, -0.3f, 0.0f));
+	model = glm::translate(model, camera.Position + camera.Orientation + planeOffSet);
+	//TO DO: Rotate spacecraft along with camera
 	model = glm::scale(model, glm::vec3(0.0005, 0.0005, 0.0005));
 	models[1]->draw(model, view, proj, shader);
 
 	camera.Update();
+
 
 	//Bind different textures
 }
@@ -146,7 +152,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	if (key == GLFW_KEY_A && action == GLFW_PRESS) {
 		camera.rotation -= 1;
 	}
-	if (key == GLFW_KEY_B && action == GLFW_PRESS) {
+	if (key == GLFW_KEY_D && action == GLFW_PRESS) {
 		camera.rotation += 1;
 	}
 	

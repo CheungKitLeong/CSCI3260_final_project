@@ -24,7 +24,7 @@ public:
 
 	float xoffset;
 	//float yoffset;
-	//bool mouseNeverMoved = true;
+	bool mouseNeverMoved = true;
 	float lastX = 400;//, lastY = 300;
 	float yaw, pitch = 0;
 	const float sensitivity = 0.2f;

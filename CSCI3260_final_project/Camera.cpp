@@ -32,10 +32,10 @@ void Camera::ProcessMouseMovement_Left(double x) {
 	/*
 	if (mouseNeverMoved) {
 		lastX = x;
-		lastY = y;
+		//lastY = y;
 		mouseNeverMoved = false;
-	}
-	*/
+	}*/
+	
 
 	std::cout << "Initial yaw and pitch: " << yaw << ";\n"; // << pitch << "\n";
 	xoffset = x - lastX;
