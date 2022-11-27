@@ -12,6 +12,7 @@ Student Name:
 #include "Shader.h"
 #include "Texture.h"
 #include "Model.h"
+#include "Camera.h"
 
 #include <iostream>
 #include <fstream>
@@ -28,6 +29,7 @@ Shader shader;
 #define NUM_OBJ 4
 Model* models[NUM_OBJ];
 
+Camera camera;
 
 void cleanup() {
 	for (int i = 0; i < NUM_OBJ; i++) {
@@ -83,10 +85,12 @@ void paintGL(void)  //always run
 	//Set transformation matrix
 	 
 	glm::mat4 model = glm::mat4(1.0f);
-	glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.0f, 10.0f) , ORIGIN, glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::mat4 view = glm::lookAt(camera.Position , ORIGIN, camera.Up);
 	glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)(SCR_WIDTH / SCR_HEIGHT), 0.1f, 100.0f);
 
 	models[0]->draw(model, view, proj, shader);
+
+
 
 	//Bind different textures
 }
@@ -114,6 +118,22 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	// Sets the Keyboard callback for the current window.
+	
+	if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
+		camera.xPress -= 1;
+		std::cout << camera.xPress << " , " << camera.Position.x << "/";
+	}
+	if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
+		camera.xPress += 1;
+	}
+	if (key == GLFW_KEY_UP && action == GLFW_PRESS) {
+		camera.zPress += 1;
+	}
+	if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
+		camera.zPress -= 1;
+	}
+	
+
 }
 
 
@@ -152,6 +172,7 @@ int main(int argc, char* argv[])
 	glfwSetScrollCallback(window, scroll_callback);
 	glfwSetCursorPosCallback(window, cursor_position_callback);
 	glfwSetMouseButtonCallback(window, mouse_button_callback);
+	camera.Inputs(window);
 
 	initializedGL();
 
