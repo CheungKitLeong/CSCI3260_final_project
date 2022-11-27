@@ -97,7 +97,7 @@ void paintGL(void)  //run every frame
 	models[0]->draw(model, view, proj, shader);
 
 	model = glm::mat4(1.0f);
-	model = glm::translate(model, camera.Position + camera.Orientation + glm::vec3(0.0f, -2.0f, 0.0f););
+	model = glm::translate(model, camera.Position + camera.Orientation + glm::vec3(0.0f, -0.0f, 0.0f));
 	model = glm::scale(model, glm::vec3(0.0005, 0.0005, 0.0005));
 	models[1]->draw(model, view, proj, shader);
 
