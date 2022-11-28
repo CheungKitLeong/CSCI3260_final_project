@@ -10,9 +10,11 @@
 #include "Shader.h"
 
 #include <vector>
+#include <queue>
+
+#include <iostream>
 //#include <string>
-//#include <iostream>
-//#include <fstream>#pragma once
+//#include <fstream>
 
 /*
 struct Rock {
@@ -25,11 +27,12 @@ class AstrRing {
 	
 public:	
 	
-	//int rockCount;
-	//float radius;
+	int rockCount;
+	std::queue<float> offsetxQueue;
+	float ringRadius;
 	//glm::vec3 center;
 
-	AstrRing();
+	AstrRing(int rock, float radius);
 
 	void Render(Model* model, glm::mat4 center, glm::mat4 view, glm::mat4 proj, Shader shader);
 

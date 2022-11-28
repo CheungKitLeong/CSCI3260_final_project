@@ -36,7 +36,7 @@ Shader shader;
 Model* models[NUM_OBJ];
 
 Camera camera;
-AstrRing astrRing;
+AstrRing astrRing(50, 5);
 
 void cleanup() {
 	for (int i = 0; i < NUM_OBJ; i++) {
