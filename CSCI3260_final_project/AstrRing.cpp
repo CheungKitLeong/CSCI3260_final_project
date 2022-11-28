@@ -18,6 +18,11 @@ using namespace std;
 #include <fstream>
 #include <string>
 
+AstrRing::AstrRing() {
+	srand(static_cast <unsigned> (time(0)));
+
+}
+
 
 void AstrRing::Render(Model* model, glm::mat4 center, glm::mat4 view, glm::mat4 proj, Shader shader) {
 	float radius = 5;
@@ -28,8 +33,9 @@ void AstrRing::Render(Model* model, glm::mat4 center, glm::mat4 view, glm::mat4 
 
 	//srand(time(0));
 	//offSetx = -radius + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (radius - (-radius))));
-	offSetx =
-	offSetz = sqrt(radius - pow(offSetx, 2));		//if RANDOM_BOOL = true, offSetz = -offSetz;
+
+	offSetx = -radius + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (2 * radius)));
+	offSetz = sqrt(pow(radius,2) - pow(offSetx, 2));		//if RANDOM_BOOL = true, offSetz = -offSetz;
 
 	std::cout << offSetx << "," << offSetz << ";\n";
 

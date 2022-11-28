@@ -20,6 +20,11 @@ Student Name:
 #include <vector>
 #include <map>
 
+#include <ctime>
+#include <cstdlib>
+
+
+
 // screen setting
 const int SCR_WIDTH = 800;
 const int SCR_HEIGHT = 600;
@@ -173,6 +178,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 int main(int argc, char* argv[])
 {
+
 	GLFWwindow* window;
 
 	/* Initialize the glfw */
@@ -206,7 +212,7 @@ int main(int argc, char* argv[])
 	glfwSetScrollCallback(window, scroll_callback);
 	glfwSetCursorPosCallback(window, cursor_position_callback);
 	glfwSetMouseButtonCallback(window, mouse_button_callback);
-	camera.Inputs(window);
+	//camera.Inputs(window);
 
 	initializedGL();
 

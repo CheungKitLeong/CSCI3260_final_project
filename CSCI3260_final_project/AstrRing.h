@@ -24,10 +24,12 @@ struct Rock {
 class AstrRing {
 	
 public:	
+	
 	//int rockCount;
 	//float radius;
 	//glm::vec3 center;
 
+	AstrRing();
 
 	void Render(Model* model, glm::mat4 center, glm::mat4 view, glm::mat4 proj, Shader shader);
 
