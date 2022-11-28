@@ -15,9 +15,6 @@ Camera::Camera()
 }
 */
 
-
-
-
 void Camera::Inputs(GLFWwindow* window)
 {
 	// Handles key inputs

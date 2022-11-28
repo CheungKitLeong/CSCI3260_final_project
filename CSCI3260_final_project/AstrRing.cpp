@@ -23,10 +23,10 @@ AstrRing::AstrRing(int rock, float radius) {
 	ringRadius = radius;
 	//queue<float> offsetxQueue;
 
-	float sizeMax = 0.04;
-	float sizeMin = 0.02;
-	float yMax = 0.8;
-	float yMin = 0.6;
+	float sizeMax = 0.05;
+	float sizeMin = 0.03;
+	float yMax = 0.9;
+	float yMin = 0.5;
 
 		// * Generate a queue of random numbers for rendering before paintGL()*
 	srand(static_cast <unsigned> (time(0)));
@@ -64,8 +64,8 @@ void AstrRing::Render(Model* model, glm::mat4 center, glm::mat4 view, glm::mat4 
 
 		float offSetx = offsetxTemp.front();
 		float offSetz = sqrt(pow(ringRadius, 2) - pow(offSetx, 2));
-		if (!zAxisTemp.front())
-			offSetz = -offSetz;		//So that both positive and negative value of z offset can be obtained.
+		//if (!zAxisTemp.front())
+			//offSetz = -offSetz;		//So that both positive and negative value of z offset can be obtained.
 		float offSety = offsetyTemp.front();
 
 

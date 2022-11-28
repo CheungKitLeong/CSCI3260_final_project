@@ -20,8 +20,6 @@ Student Name:
 #include <vector>
 #include <map>
 
-#include <ctime>
-#include <cstdlib>
 
 
 
@@ -105,7 +103,7 @@ void paintGL(void)  //run every frame
 	
 	
 		// *** Drawing object 0: The planet
-	glm::mat4 planetTrans = glm::translate(model, glm::vec3(0.0f, 0.0f, -20.0f));
+	glm::mat4 planetTrans = glm::translate(model, glm::vec3(0.0f, 0.0f, -50.0f));
 	models[0]->draw(planetTrans, view, proj, shader);
 
 
