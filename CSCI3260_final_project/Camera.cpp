@@ -37,7 +37,7 @@ void Camera::ProcessMouseMovement_Left(double x) {
 	}*/
 	
 
-	std::cout << "Initial yaw and pitch: " << yaw << ";\n"; // << pitch << "\n";
+	//std::cout << "Initial yaw and pitch: " << yaw << ";\n"; // << pitch << "\n";
 	xoffset = x - lastX;
 	//yoffset = lastY - y;
 
@@ -48,7 +48,7 @@ void Camera::ProcessMouseMovement_Left(double x) {
 
 	yaw += xoffset;
 
-	std::cout << "Final yaw: " << yaw << ";\n"; //<< pitch << "\n";
+	//std::cout << "Final yaw: " << yaw << ";\n"; //<< pitch << "\n";
 }
 
 void Camera::Update() {

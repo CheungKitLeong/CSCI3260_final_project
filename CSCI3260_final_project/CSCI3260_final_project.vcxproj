@@ -23,6 +23,7 @@
     <None Include="VertexShaderCode.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AstrRing.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -30,6 +31,7 @@
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AstrRing.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Shader.h" />

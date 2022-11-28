@@ -13,6 +13,7 @@ Student Name:
 #include "Texture.h"
 #include "Model.h"
 #include "Camera.h"
+#include "AstrRing.h"
 
 #include <iostream>
 #include <fstream>
@@ -30,6 +31,7 @@ Shader shader;
 Model* models[NUM_OBJ];
 
 Camera camera;
+AstrRing astrRing;
 
 void cleanup() {
 	for (int i = 0; i < NUM_OBJ; i++) {
@@ -58,6 +60,9 @@ void sendDataToOpenGL()
 	Model* spacecraft = new Model("resources/object/spacecraft.obj");
 	spacecraft->setTexture("resources/texture/spacecraftTexture.bmp");
 	models[1] = spacecraft;
+	Model* rock = new Model("resources/object/rock.obj");
+	rock->setTexture("resources/texture/rockTexture.bmp");
+	models[2] = rock;
 
 	//Load textures
 }
@@ -95,8 +100,8 @@ void paintGL(void)  //run every frame
 	
 	
 		// *** Drawing object 0: The planet
-	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -20.0f));
-	models[0]->draw(model, view, proj, shader);
+	glm::mat4 planetTrans = glm::translate(model, glm::vec3(0.0f, 0.0f, -20.0f));
+	models[0]->draw(planetTrans, view, proj, shader);
 
 
 
@@ -107,6 +112,10 @@ void paintGL(void)  //run every frame
 	//TO DO: Rotate spacecraft along with camera
 	model = glm::scale(model, glm::vec3(0.0005, 0.0005, 0.0005));
 	models[1]->draw(model, view, proj, shader);
+
+	
+		// *** Drawing object 2: The rock (1 only)
+	astrRing.Render(models[2], planetTrans, view, proj, shader);
 
 	camera.Update();
 
