@@ -1,6 +1,11 @@
 #include "Camera.h"
+#include "Model.h"
+#include "Shader.h"
 
-//#include "Dependencies/GLFW/glfw3.h"
+#include "Dependencies/glew/glew.h"
+#include "Dependencies/GLFW/glfw3.h"
+#include "Dependencies/glm/glm.hpp"
+#include "Dependencies/glm/gtc/matrix_transform.hpp"
 
 //#include <vector>
 #include <map>
@@ -47,6 +52,19 @@ void Camera::ProcessMouseMovement_Left(double x) {
 
 	//std::cout << "Final yaw: " << yaw << ";\n"; //<< pitch << "\n";
 }
+
+void Camera::Object(Model* object, glm::mat4 modelTrans, glm::mat4 view, glm::mat4 proj, Shader shader) {
+
+	glm::vec3 planeOffSet = glm::vec3(0.0f, -0.3f, 0.0f);
+	modelTrans = glm::mat4(1.0f);
+	modelTrans = glm::translate(modelTrans, Position + Orientation + planeOffSet);
+	modelTrans = glm::rotate(modelTrans, glm::radians(-yaw + 100.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//TO DO: Rotate spacecraft along with camera
+	modelTrans = glm::scale(modelTrans, glm::vec3(0.0005, 0.0005, 0.0005));
+	object->draw(modelTrans, view, proj, shader);
+
+}
+
 
 void Camera::Update() {
 	Position.x = speed * xPress;

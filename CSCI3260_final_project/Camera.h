@@ -4,6 +4,7 @@
 #include "Dependencies/GLFW/glfw3.h"
 #include "Dependencies/glm/glm.hpp"
 
+#include "Model.h"
 #include "Shader.h"
 
 #include <vector>
@@ -38,14 +39,13 @@ public:
 	float speed = 0.5f;
 	//float sensitivity = 100.0f;
 
-
 	// Camera constructor
 	//Camera();
 
-
-
 	// Updates and exports the camera matrix to the Vertex Shader
-	void Matrix(float FOVdeg, float nearPlane, float farPlane, Shader& shader, const char* uniform);
+	//void Matrix(float FOVdeg, float nearPlane, float farPlane, Shader& shader, const char* uniform);
+	void Object(Model* object, glm::mat4 modelTrans, glm::mat4 view, glm::mat4 proj, Shader shader);
+
 	// Handles camera inputs
 	void Inputs(GLFWwindow* window);
 

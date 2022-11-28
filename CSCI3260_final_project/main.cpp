@@ -34,7 +34,7 @@ Shader shader;
 Model* models[NUM_OBJ];
 
 Camera camera;
-AstrRing astrRing(200, 5);
+AstrRing astrRing(50, 5);
 
 void cleanup() {
 	for (int i = 0; i < NUM_OBJ; i++) {
@@ -106,21 +106,24 @@ void paintGL(void)  //run every frame
 	glm::mat4 planetTrans = glm::translate(model, glm::vec3(0.0f, 0.0f, -50.0f));
 	models[0]->draw(planetTrans, view, proj, shader);
 
-
-
 		// *** Drawing object 1: the spacecraft
+	camera.Object(models[1], model, view, proj, shader);
+
+
+	/*
 	glm::vec3 planeOffSet = glm::vec3(0.0f, -0.3f, 0.0f);
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, camera.Position + camera.Orientation + planeOffSet);
 	//TO DO: Rotate spacecraft along with camera
 	model = glm::scale(model, glm::vec3(0.0005, 0.0005, 0.0005));
 	models[1]->draw(model, view, proj, shader);
-
+	*/
 	
 		// *** Drawing object 2: The rock (1 only)
 	astrRing.Render(models[2], planetTrans, view, proj, shader);
 
 	camera.Update();
+
 
 
 	//Bind different textures
