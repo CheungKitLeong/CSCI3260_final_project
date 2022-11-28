@@ -23,16 +23,28 @@ AstrRing::AstrRing(int rock, float radius) {
 	ringRadius = radius;
 	//queue<float> offsetxQueue;
 
+	float sizeMax = 0.04;
+	float sizeMin = 0.02;
+	float yMax = 0.8;
+	float yMin = 0.6;
 
+		// * Generate a queue of random numbers for rendering before paintGL()*
 	srand(static_cast <unsigned> (time(0)));
 	for (int i = 0; i < rockCount; i++) {
 		float offSetx = -ringRadius + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (2 * ringRadius)));
 		std::cout << "First Offset x:" << offSetx;
 		offsetxQueue.push(offSetx);
+
+		float offSety = yMin + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (yMax - yMin)));
+		std::cout << "First Offset x:" << offSetx;
+		offsetyQueue.push(offSety);
+
+		float size = sizeMin + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (sizeMax)));
+		sizeQueue.push(size);
+
+		bool zAxis = rand()%2;
+		zAxisQueue.push(zAxis);
 	}
-
-		
-
 
 }
 
@@ -42,20 +54,32 @@ void AstrRing::Render(Model* model, glm::mat4 center, glm::mat4 view, glm::mat4 
 	//for (int i = 0; i < rockCount; i++) {}
 
 	queue<float> offsetxTemp = offsetxQueue;
-
+	queue<float> offsetyTemp = offsetyQueue;
+	queue<float> sizeTemp = sizeQueue;
+	queue<bool> zAxisTemp = zAxisQueue;
 		
 	while(!offsetxTemp.empty()){
+
+		float size = sizeTemp.front();
+
 		float offSetx = offsetxTemp.front();
-		float offSetz = sqrt(pow(ringRadius, 2) - pow(offSetx, 2));		//if RANDOM_BOOL = true, offSetz = -offSetz;
+		float offSetz = sqrt(pow(ringRadius, 2) - pow(offSetx, 2));
+		if (!zAxisTemp.front())
+			offSetz = -offSetz;		//So that both positive and negative value of z offset can be obtained.
+		float offSety = offsetyTemp.front();
+
 
 		std::cout << "Offset x:" << offSetx << ", Offset z:" << offSetz << ";\n";
 
-		glm::vec3 rockOffset = glm::vec3(offSetx, 0.0f, offSetz);
+		glm::vec3 rockOffset = glm::vec3(offSetx, offSety, offSetz);
 		glm::mat4 rockTrans = glm::translate(center, rockOffset);
-		rockTrans = glm::scale(rockTrans, glm::vec3(0.1, 0.1, 0.1));
+		rockTrans = glm::scale(rockTrans, glm::vec3(size, size, size));
 		model->draw(rockTrans, view, proj, shader);
 
 		offsetxTemp.pop();
+		offsetyTemp.pop();
+		sizeTemp.pop();
+		zAxisTemp.pop();
 	}	
 
 		/*

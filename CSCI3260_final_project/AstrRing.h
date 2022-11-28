@@ -29,9 +29,14 @@ public:
 	
 	int rockCount;
 	std::queue<float> offsetxQueue;
+	std::queue<float> offsetyQueue;
+	std::queue<float> sizeQueue;
+	std::queue<bool> zAxisQueue;
+
 	float ringRadius;
 	//glm::vec3 center;
 
+	//Set rock count, and ring radius;
 	AstrRing(int rock, float radius);
 
 	void Render(Model* model, glm::mat4 center, glm::mat4 view, glm::mat4 proj, Shader shader);
