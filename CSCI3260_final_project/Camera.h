@@ -49,8 +49,8 @@ public:
 	// Handles camera inputs
 	void Inputs(GLFWwindow* window);
 
-	//void ProcessMouseMovement_Left(double x, double y);
-	void ProcessMouseMovement_Left(double x);
+	//void ProcessMouseMovement(double x, double y);
+	void ProcessMouseMovement(double x);
 
 	void Update();
 

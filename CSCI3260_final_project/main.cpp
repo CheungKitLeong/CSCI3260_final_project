@@ -134,13 +134,33 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
+struct MouseController {
+	bool LEFT_BUTTON = false;
+	double MOUSE_X = 0.0, MOUSE_Y = 0.0;
+};
+
+MouseController mouseCtl;
+
+
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
-{
+{	
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+		mouseCtl.LEFT_BUTTON = true;
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	};
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+		mouseCtl.LEFT_BUTTON = false;
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	};
 	// Sets the mouse-button callback for the current window.	
 }
 
 void cursor_position_callback(GLFWwindow* window, double x, double y)
 {
+	if (mouseCtl.LEFT_BUTTON) {
+
+		camera.ProcessMouseMovement(x);
+	};
 	// Sets the cursor position callback for the current window
 }
 

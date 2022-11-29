@@ -30,13 +30,13 @@ void Camera::Inputs(GLFWwindow* window)
 	}
 }
 
-void Camera::ProcessMouseMovement_Left(double x) {
-	/*
+void Camera::ProcessMouseMovement(double x) {
+	/**/
 	if (mouseNeverMoved) {
 		lastX = x;
 		//lastY = y;
 		mouseNeverMoved = false;
-	}*/
+	}
 	
 
 	//std::cout << "Initial yaw and pitch: " << yaw << ";\n"; // << pitch << "\n";
@@ -70,7 +70,7 @@ void Camera::Update() {
 	Position.x = speed * xPress;
 	Position.z = speed * zPress;
 
-	Camera::ProcessMouseMovement_Left(rotation);
+	//Camera::ProcessMouseMovement(rotation);
 
 	glm::vec3 direction;
 	direction.x = cos(glm::radians(yaw)); //* cos(glm::radians(pitch));

@@ -64,8 +64,8 @@ void AstrRing::Render(Model* model, glm::mat4 center, glm::mat4 view, glm::mat4 
 
 		float offSetx = offsetxTemp.front();
 		float offSetz = sqrt(pow(ringRadius, 2) - pow(offSetx, 2));
-		//if (!zAxisTemp.front())
-			//offSetz = -offSetz;		//So that both positive and negative value of z offset can be obtained.
+		if (!zAxisTemp.front())
+			offSetz = -offSetz;		//So that both positive and negative value of z offset can be obtained.
 		float offSety = offsetyTemp.front();
 
 
