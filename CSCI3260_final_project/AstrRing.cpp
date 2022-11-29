@@ -12,12 +12,6 @@
 using namespace std;
 
 
-//#include <vector>
-#include <map>
-#include <iostream>
-#include <fstream>
-#include <string>
-
 AstrRing::AstrRing(int rock, float radius) {
 	rockCount = rock;
 	ringRadius = radius;
@@ -32,11 +26,11 @@ AstrRing::AstrRing(int rock, float radius) {
 	srand(static_cast <unsigned> (time(0)));
 	for (int i = 0; i < rockCount; i++) {
 		float offSetx = -ringRadius + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (2 * ringRadius)));
-		std::cout << "First Offset x:" << offSetx;
+		//std::cout << "First Offset x:" << offSetx;
 		offsetxQueue.push(offSetx);
 
 		float offSety = yMin + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (yMax - yMin)));
-		std::cout << "First Offset x:" << offSetx;
+		//std::cout << "First Offset x:" << offSetx;
 		offsetyQueue.push(offSety);
 
 		float size = sizeMin + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (sizeMax)));
@@ -51,8 +45,6 @@ AstrRing::AstrRing(int rock, float radius) {
 
 void AstrRing::Render(Model* model, glm::mat4 center, glm::mat4 view, glm::mat4 proj, Shader shader) {
 	
-	//for (int i = 0; i < rockCount; i++) {}
-
 	queue<float> offsetxTemp = offsetxQueue;
 	queue<float> offsetyTemp = offsetyQueue;
 	queue<float> sizeTemp = sizeQueue;
@@ -69,7 +61,7 @@ void AstrRing::Render(Model* model, glm::mat4 center, glm::mat4 view, glm::mat4 
 		float offSety = offsetyTemp.front();
 
 
-		std::cout << "Offset x:" << offSetx << ", Offset z:" << offSetz << ";\n";
+		//std::cout << "Offset x:" << offSetx << ", Offset z:" << offSetz << ";\n";
 
 		glm::vec3 rockOffset = glm::vec3(offSetx, offSety, offSetz);
 		glm::mat4 rockTrans = glm::translate(center, rockOffset);
@@ -81,24 +73,6 @@ void AstrRing::Render(Model* model, glm::mat4 center, glm::mat4 view, glm::mat4 
 		sizeTemp.pop();
 		zAxisTemp.pop();
 	}	
-
-		/*
-		//float offSetx = 0;
-		//float offSety = 0;
-		float offSetz = 0;
-
-		//offSetx = -radius + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (2 * radius)));
-		offSetz = sqrt(pow(ringRadius,2) - pow(offSetx, 2));		//if RANDOM_BOOL = true, offSetz = -offSetz;
-
-		std::cout << offSetx << "," << offSetz << ";\n";
-
-		glm::vec3 rockOffset = glm::vec3(offSetx, 0.0f, offSetz);
-		glm::mat4 rockTrans = glm::translate(center, rockOffset);
-		rockTrans = glm::scale(rockTrans, glm::vec3(0.2, 0.2, 0.2));
-		model->draw(rockTrans, view, proj, shader);
-		*/
-	
-	
 
 }
 

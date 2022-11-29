@@ -7,11 +7,6 @@
 #include "Dependencies/glm/glm.hpp"
 #include "Dependencies/glm/gtc/matrix_transform.hpp"
 
-//#include <vector>
-#include <map>
-#include <iostream>
-#include <fstream>
-#include <string>
 
 /*
 Camera::Camera()
@@ -20,6 +15,7 @@ Camera::Camera()
 }
 */
 
+/*
 void Camera::Inputs(GLFWwindow* window)
 {
 	// Handles key inputs
@@ -29,39 +25,40 @@ void Camera::Inputs(GLFWwindow* window)
 		Position.x = speed * xPress;
 	}
 }
+*/
 
+// *** Process Mouse Movement for camera rotation
 void Camera::ProcessMouseMovement(double x) {
 	/**/
-	if (mouseNeverMoved) {
-		lastX = x;
-		//lastY = y;
-		mouseNeverMoved = false;
-	}
-	
 
-	//std::cout << "Initial yaw and pitch: " << yaw << ";\n"; // << pitch << "\n";
-	xoffset = x - lastX;
+	if (mouseNotMoving) {
+		lastX = x;
+		mouseNotMoving = false;
+	}
+
+	//std::cout << "Initial yaw, x, lastx: " << yaw << " , "<< x <<", " << lastX << ";\n"; // << pitch << "\n";
+	float xoffset = x - lastX;
 	lastX = x;
 	xoffset *= sensitivity;
 
 	yaw += xoffset;
-
-	//std::cout << "Final yaw: " << yaw << ";\n"; //<< pitch << "\n";
+	//std::cout << "Final yaw, x, lastx: " << yaw << " , " << x << ", " << lastX << ";\n"; //<< pitch << "\n";
 }
 
+// *** Handle movement of the camera object (Spacecraft)
+//		- fixed to the camera
 void Camera::Object(Model* object, glm::mat4 modelTrans, glm::mat4 view, glm::mat4 proj, Shader shader) {
 
 	glm::vec3 planeOffSet = glm::vec3(0.0f, -0.3f, 0.0f);
 	modelTrans = glm::mat4(1.0f);
 	modelTrans = glm::translate(modelTrans, Position + Orientation + planeOffSet);
-	modelTrans = glm::rotate(modelTrans, glm::radians(-yaw + 100.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	//TO DO: Rotate spacecraft along with camera
+	modelTrans = glm::rotate(modelTrans, glm::radians(-yaw + 90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	modelTrans = glm::scale(modelTrans, glm::vec3(0.0005, 0.0005, 0.0005));
 	object->draw(modelTrans, view, proj, shader);
 
 }
 
-
+// *** Handle movement of the camera
 void Camera::Update() {
 	Position.x = speed * xPress;
 	Position.z = speed * zPress;

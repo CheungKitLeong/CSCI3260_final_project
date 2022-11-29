@@ -34,7 +34,10 @@ Shader shader;
 Model* models[NUM_OBJ];
 
 Camera camera;
-AstrRing astrRing(50, 5);
+
+//Create Astroid Ring, Set rock count and radius
+AstrRing astrRing(200, 5);
+
 
 void cleanup() {
 	for (int i = 0; i < NUM_OBJ; i++) {
@@ -151,6 +154,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
 		mouseCtl.LEFT_BUTTON = false;
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		camera.mouseNotMoving = true;
 	};
 	// Sets the mouse-button callback for the current window.	
 }
@@ -172,7 +176,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	// Sets the Keyboard callback for the current window.
-	
+		// *** 1. Transform the spacecraft with 4 directions
 	if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
 		camera.xPress -= 1;
 		std::cout << camera.xPress << " , " << camera.Position.x << "/";
@@ -186,11 +190,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
 		camera.zPress += 1;
 	}
+
+	// *** 2. Camera Rotation, for debug
 	if (key == GLFW_KEY_A && action == GLFW_PRESS) {
-		camera.rotation -= 1;
+		camera.yaw -= 1;
 	}
 	if (key == GLFW_KEY_D && action == GLFW_PRESS) {
-		camera.rotation += 1;
+		camera.yaw += 1;
 	}
 	
 
