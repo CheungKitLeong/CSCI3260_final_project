@@ -3,7 +3,7 @@
 Add the object file (.obj) to `./CSCI3260_final_project/resourse/object` from blackboard by yourself
 
 
-
+*** Terrance ***
 (T) 7. Correct viewpoint 8% 
 - Complete!
 (T) 10. Use keyboard to control the translations of the spacecraft 8% 
@@ -15,6 +15,7 @@ Add the object file (.obj) to `./CSCI3260_final_project/resourse/object` from bl
 (T) 6. The rotation of the rocks 8% 
 - Not Yet
 
+*** Kit ***
 (K) 1. Render one planet, one spacecraft and at least one space vehicles 10%
 - Almost done
 (K) 8. Normal mapping for the planet 8%
