@@ -41,11 +41,7 @@ void Camera::ProcessMouseMovement(double x) {
 
 	//std::cout << "Initial yaw and pitch: " << yaw << ";\n"; // << pitch << "\n";
 	xoffset = x - lastX;
-	//yoffset = lastY - y;
-
 	lastX = x;
-	//lastY = y;
-
 	xoffset *= sensitivity;
 
 	yaw += xoffset;

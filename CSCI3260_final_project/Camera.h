@@ -26,8 +26,8 @@ public:
 	float xoffset;
 	//float yoffset;
 	bool mouseNeverMoved = true;
-	float lastX = 400;//, lastY = 300;
-	float yaw, pitch = 0;
+	float lastX = 0;//, lastY = 300;
+	float yaw = -90;
 	const float sensitivity = 0.2f;
 
 	glm::vec3 Position = glm::vec3(0.0f, 0.0f, 10.0f);

@@ -136,7 +136,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 struct MouseController {
 	bool LEFT_BUTTON = false;
-	double MOUSE_X = 0.0, MOUSE_Y = 0.0;
+	//double MOUSE_X = 0.0, MOUSE_Y = 0.0;
 };
 
 MouseController mouseCtl;
