@@ -14,6 +14,7 @@ Student Name:
 #include "Model.h"
 #include "Camera.h"
 #include "AstrRing.h"
+#include "Skybox.h"
 
 #include <iostream>
 #include <fstream>
@@ -38,6 +39,8 @@ Camera camera;
 
 //Create Astroid Ring, Set rock count and radius
 AstrRing astrRing(200, 5);
+
+Skybox skybox;
 
 
 void cleanup() {
@@ -84,10 +87,12 @@ void initializedGL(void) //run only once
 	get_OpenGL_info();
 	sendDataToOpenGL();
 
-	//TODO: set up the camera parameters	
+	//TODO: set up the camera parameters (Done in global var)	
 	//TODO: set up the vertex shader and fragment shader
 	shader.setupShader("VertexShaderCode.glsl", "FragmentShaderCode.glsl");
-	shader.use();
+
+	//TODO: set up skybox
+	skybox.setup();
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -99,6 +104,7 @@ void paintGL(void)  //run every frame
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//TODO:
 	//Set lighting information, such as position and color of lighting source
+	shader.use();
 	shader.setVec3("viewPos", camera.Position);
 	shader.setVec3("ptLight.position", sunPos);
 	// 
@@ -131,6 +137,9 @@ void paintGL(void)  //run every frame
 	astrRing.Render(models[2], planetTrans, view, proj, shader);
 
 	camera.Update();
+
+// *** Drawing skybox
+	skybox.drawSkybox(view, proj);
 
 
 

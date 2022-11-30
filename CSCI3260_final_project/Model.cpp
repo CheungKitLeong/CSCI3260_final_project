@@ -1,8 +1,5 @@
 #include "Model.h"
 
-//#include "Dependencies/GLFW/glfw3.h"
-
-//#include <vector>
 #include <map>
 #include <iostream>
 #include <fstream>
@@ -30,9 +27,6 @@ Model::Model(const char* path){
 	light_params.shininess = 10.0f;
 }
 
-//Model::~Model() {
-//	
-//}
 
 void Model::setNormalTexture(const char* path) {
 	normal_texture.setupTexture(path);
@@ -44,7 +38,7 @@ void Model::setTexture(const char* path) {
 }
 
 void Model::draw(glm::mat4 model, glm::mat4 view, glm::mat4 proj, Shader shader) {
-
+	shader.use();
 	setPtLight(shader);
 	// Make uniform variables
 	shader.setMat4("model", model);
@@ -66,6 +60,7 @@ void Model::draw(glm::mat4 model, glm::mat4 view, glm::mat4 proj, Shader shader)
 
 	glBindVertexArray(vaoID); // Bind VAO
 	glDrawElements(GL_TRIANGLES, static_cast<unsigned int> (indices.size()), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
 }
 
 void Model::loadOBJ(const char* objPath)
@@ -179,7 +174,7 @@ void Model::loadOBJ(const char* objPath)
 	//return model;
 }
 
-void Model::constructVAO() {
+void Model::constructVAO(bool skybox) {
 	GLuint vboID, eboID;
 
 	// Save indices size (don't need)
@@ -206,13 +201,15 @@ void Model::constructVAO() {
 	glEnableVertexAttribArray(0);	//Enable the vertex attribute to use it later
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
 
-	// model uv
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(offsetof(Vertex, uv)));
+	if (!skybox) {
+		// model uv
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(offsetof(Vertex, uv)));
 
-	// model normal
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(offsetof(Vertex, normal)));
+		// model normal
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(offsetof(Vertex, normal)));
+	}
 
 	//Unbind
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

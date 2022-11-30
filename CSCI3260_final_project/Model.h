@@ -30,19 +30,21 @@ class Model
 public:
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
-	GLuint vaoID;
 
 	Texture texture;
 	Texture normal_texture;
 	LightParam light_params;
 
 	Model(const char* path);
-	//~Model();
 
 	void draw(glm::mat4 model, glm::mat4 view, glm::mat4 proj, Shader shader);
 
 	void setTexture(const char* path);
 	void setNormalTexture(const char* path);
+
+protected:
+	void constructVAO(bool skybox = false);
+	GLuint vaoID;
 
 private:
 	bool normal_map = false;
@@ -50,7 +52,7 @@ private:
 	// load model from path
 	void loadOBJ(const char* objPath);
 	// make VAO, VBO and EBO
-	void constructVAO();
+
 
 	void setPtLight(Shader shader, glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f));
 

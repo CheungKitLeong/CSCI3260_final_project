@@ -7,7 +7,7 @@ public:
 	void bind(unsigned int slot) const;
 	void unbind() const;
 
-private:
+protected:
 	unsigned int ID = 0;
 	int Width = 0, Height = 0, BPP = 0;
 };
