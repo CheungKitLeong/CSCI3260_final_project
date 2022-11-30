@@ -55,7 +55,7 @@ void Model::draw(glm::mat4 model, glm::mat4 view, glm::mat4 proj, Shader shader)
 	texture.bind(0);
 
 	if (normal_map) {
-		shader.setInt("normalMap", normal_map);
+		shader.setInt("normalMap", 1);
 
 		shader.setInt("normalSamp", 1);
 		normal_texture.bind(1);

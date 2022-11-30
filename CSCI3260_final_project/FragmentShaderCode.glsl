@@ -8,7 +8,7 @@ out vec3 Color;
 
 uniform sampler2D texSamp;
 uniform sampler2D normalSamp;
-uniform bool normMap;
+uniform int normMap;
 
 // for lighting
 struct PointLight {
@@ -56,7 +56,14 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 void main()
 {
     // Normalization
+
     vec3 norm = normalize(Normal);
+    // Normal mapping
+    if(normMap > 0){
+        norm = texture(normalSamp, UV).rgb;
+        norm = normalize(norm * 2.0 - 1.0);
+    }
+
     vec3 viewDir = normalize(viewPos - Position);
 	Color = CalcPointLight(ptLight, norm, Position, viewDir);
 }
