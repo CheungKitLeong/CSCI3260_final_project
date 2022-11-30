@@ -12,6 +12,12 @@
 //#include <iostream>
 //#include <fstream>
 
+struct LightParam {
+	float ambient;
+	float diffuse;
+	float specular;
+	float shininess;
+};
 
 struct Vertex {
 	glm::vec3 position;
@@ -27,6 +33,8 @@ public:
 	GLuint vaoID;
 
 	Texture texture;
+	Texture normal_texture;
+	LightParam light_params;
 
 	Model(const char* path);
 	//~Model();
@@ -34,12 +42,16 @@ public:
 	void draw(glm::mat4 model, glm::mat4 view, glm::mat4 proj, Shader shader);
 
 	void setTexture(const char* path);
+	void setNormalTexture(const char* path);
 
 private:
+	bool normal_map = false;
 
 	// load model from path
 	void loadOBJ(const char* objPath);
 	// make VAO, VBO and EBO
 	void constructVAO();
+
+	void setPtLight(Shader shader, glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f));
 
 };

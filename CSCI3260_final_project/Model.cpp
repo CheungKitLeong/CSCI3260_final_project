@@ -8,14 +8,36 @@
 #include <fstream>
 #include <string>
 
+void Model::setPtLight(Shader shader, glm::vec3 color) {
+	shader.setFloat("ptLight.constant", 1.0f);
+	shader.setFloat("ptLight.linear", 0.09f);
+	shader.setFloat("ptLight.quadratic", 0.032f);
+	shader.setFloat("ptLight.intensity", 50.0f);
+
+	shader.setVec3("ptLight.ambient", color * light_params.ambient);
+	shader.setVec3("ptLight.diffuse", color * light_params.diffuse);
+	shader.setVec3("ptLight.specular", color * light_params.specular);
+
+	shader.setFloat("shininess", light_params.shininess);
+}
+
 Model::Model(const char* path){
 	loadOBJ(path);
 	constructVAO();
+	light_params.ambient = 0.1f;
+	light_params.diffuse = 0.6f;
+	light_params.specular = 0.3f;
+	light_params.shininess = 10.0f;
 }
 
 //Model::~Model() {
 //	
 //}
+
+void Model::setNormalTexture(const char* path) {
+	normal_texture.setupTexture(path);
+	normal_map = true;
+}
 
 void Model::setTexture(const char* path) {
 	texture.setupTexture(path);
@@ -23,6 +45,7 @@ void Model::setTexture(const char* path) {
 
 void Model::draw(glm::mat4 model, glm::mat4 view, glm::mat4 proj, Shader shader) {
 
+	setPtLight(shader);
 	// Make uniform variables
 	shader.setMat4("model", model);
 	shader.setMat4("view", view);
@@ -30,6 +53,16 @@ void Model::draw(glm::mat4 model, glm::mat4 view, glm::mat4 proj, Shader shader)
 
 	shader.setInt("textSamp", 0);
 	texture.bind(0);
+
+	if (normal_map) {
+		shader.setInt("normalMap", normal_map);
+
+		shader.setInt("normalSamp", 1);
+		normal_texture.bind(1);
+	}
+	else {
+		shader.setInt("normalMap", 0);
+	}
 
 	glBindVertexArray(vaoID); // Bind VAO
 	glDrawElements(GL_TRIANGLES, static_cast<unsigned int> (indices.size()), GL_UNSIGNED_INT, 0);

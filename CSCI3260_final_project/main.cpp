@@ -32,6 +32,7 @@ const int SCR_HEIGHT = 600;
 Shader shader;
 #define NUM_OBJ 4
 Model* models[NUM_OBJ];
+glm::vec3 sunPos = glm::vec3(-8.0f, -10.0f, -25.0f);
 
 Camera camera;
 
@@ -97,6 +98,9 @@ void paintGL(void)  //run every frame
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//TODO:
 	//Set lighting information, such as position and color of lighting source
+	shader.setVec3("viewPos", camera.Position);
+	shader.setVec3("ptLight.position", sunPos);
+	// 
 	//Set transformation matrix
 
 	 
