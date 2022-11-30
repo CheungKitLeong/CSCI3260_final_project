@@ -24,8 +24,10 @@ public:
 	std::queue<float> offsetyQueue;
 	std::queue<float> sizeQueue;
 	std::queue<bool> zAxisQueue;
-
+	
 	float ringRadius;
+
+	float ringTimer = 0;
 
 	//Set rock count, and ring radius;
 	AstrRing(int rock, float radius);

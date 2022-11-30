@@ -49,7 +49,9 @@ void AstrRing::Render(Model* model, glm::mat4 center, glm::mat4 view, glm::mat4 
 	queue<float> offsetyTemp = offsetyQueue;
 	queue<float> sizeTemp = sizeQueue;
 	queue<bool> zAxisTemp = zAxisQueue;
-		
+	
+	std::cout << "Rotation time:" << ringTimer << ";\n";
+
 	while(!offsetxTemp.empty()){
 
 		float size = sizeTemp.front();
@@ -65,6 +67,9 @@ void AstrRing::Render(Model* model, glm::mat4 center, glm::mat4 view, glm::mat4 
 
 		glm::vec3 rockOffset = glm::vec3(offSetx, offSety, offSetz);
 		glm::mat4 rockTrans = glm::translate(center, rockOffset);
+		rockTrans = glm::translate(rockTrans, -rockOffset);
+		rockTrans = glm::rotate(rockTrans, glm::radians(ringTimer*10.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		rockTrans = glm::translate(rockTrans, rockOffset);
 		rockTrans = glm::scale(rockTrans, glm::vec3(size, size, size));
 		model->draw(rockTrans, view, proj, shader);
 
@@ -73,6 +78,8 @@ void AstrRing::Render(Model* model, glm::mat4 center, glm::mat4 view, glm::mat4 
 		sizeTemp.pop();
 		zAxisTemp.pop();
 	}	
+
+	ringTimer = glfwGetTime();
 
 }
 

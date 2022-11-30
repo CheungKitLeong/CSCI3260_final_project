@@ -18,7 +18,7 @@ public:
 	// * Horizontal movement variables
 	float xPress = 0;
 	float zPress = 0;
-	float speed = 0.5f;
+	float speed = 2.0f;
 
 	// * Camera rotation variables
 	bool mouseNotMoving = true;
