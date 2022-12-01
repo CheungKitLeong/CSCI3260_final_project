@@ -124,16 +124,6 @@ void paintGL(void)  //run every frame
 		// *** Drawing object 1: the spacecraft
 	camera.Object(models[1], model, view, proj, shader);
 
-
-	/*
-	glm::vec3 planeOffSet = glm::vec3(0.0f, -0.3f, 0.0f);
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, camera.Position + camera.Orientation + planeOffSet);
-	//TO DO: Rotate spacecraft along with camera
-	model = glm::scale(model, glm::vec3(0.0005, 0.0005, 0.0005));
-	models[1]->draw(model, view, proj, shader);
-	*/
-	
 		// *** Drawing object 2: The rock (1 only)
 	astrRing.Render(models[2], planetTrans, view, proj, shader);
 

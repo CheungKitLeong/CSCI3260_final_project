@@ -50,7 +50,7 @@ void AstrRing::Render(Model* model, glm::mat4 center, glm::mat4 view, glm::mat4 
 	queue<float> sizeTemp = sizeQueue;
 	queue<bool> zAxisTemp = zAxisQueue;
 	
-	std::cout << "Rotation time:" << ringTimer << ";\n";
+	//std::cout << "Rotation time:" << ringTimer << ";\n";
 
 	while(!offsetxTemp.empty()){
 
