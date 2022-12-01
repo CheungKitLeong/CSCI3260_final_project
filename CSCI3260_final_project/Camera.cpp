@@ -76,4 +76,37 @@ void Camera::Update() {
 	std::cout << "Position x and z: " << Position.x << " , " << Position.z << ";\n"; //<< pitch << "\n";
 }
 
+//*** New codes
 
+void Camera::ObjectNew(Model* object, glm::mat4 modelTrans, glm::mat4 view, glm::mat4 proj, Shader shader) {
+	
+	glm::vec3 SCInitialPos = glm::vec3(0);
+	glm::vec3 SCTranslation = glm::vec3(0);
+	glm::vec3 SC_local_pos;
+	glm::vec3 SC_world_pos;
+	glm::mat4 Model_matrix;
+
+
+	float scale = 0.0005;
+	glm::mat4 SC_scale_M = glm::scale(glm::mat4(1.0f), glm::vec3(scale));
+	glm::mat4 SC_trans_M = glm::translate(glm::mat4(1.0f), glm::vec3(SCInitialPos[0] + SCTranslation[0], 
+																	 SCInitialPos[1] + SCTranslation[1], 
+																	 SCInitialPos[2] + SCTranslation[2])	);
+	glm::mat4 SC_Rot_M;
+
+	Model_matrix = SC_trans_M * SC_Rot_M * SC_scale_M;
+	SC_world_pos = Model_matrix * glm::vec4(SC_local_pos, 1.0f);
+
+	
+	
+	
+	object->draw(modelTrans, view, proj, shader);
+
+}
+
+
+
+
+void Camera::UpdateNew() {
+
+}

@@ -40,11 +40,13 @@ public:
 	//void Matrix(float FOVdeg, float nearPlane, float farPlane, Shader& shader, const char* uniform);
 	
 	void Object(Model* object, glm::mat4 modelTrans, glm::mat4 view, glm::mat4 proj, Shader shader);
+	void ObjectNew(Model* object, glm::mat4 modelTrans, glm::mat4 view, glm::mat4 proj, Shader shader);
 
 	// Handles camera inputs
 	//void Inputs(GLFWwindow* window);
 
 	void ProcessMouseMovement(double x);
 	void Update();
+	void UpdateNew();
 
 };
