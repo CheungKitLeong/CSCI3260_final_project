@@ -8,7 +8,7 @@ out vec3 Color;
 
 uniform sampler2D texSamp;
 uniform sampler2D normalSamp;
-uniform int normMap;
+uniform int normalMap;
 
 // for lighting
 struct PointLight {
@@ -59,7 +59,7 @@ void main()
 
     vec3 norm = normalize(Normal);
     // Normal mapping
-    if(normMap > 0){
+    if(normalMap > 0){
         norm = texture(normalSamp, UV).rgb;
         norm = normalize(norm * 2.0 - 1.0);
     }

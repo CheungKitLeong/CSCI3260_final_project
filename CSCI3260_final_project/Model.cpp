@@ -25,6 +25,7 @@ Model::Model(const char* path){
 	light_params.diffuse = 0.6f;
 	light_params.specular = 0.3f;
 	light_params.shininess = 10.0f;
+	normal_map = false;
 }
 
 

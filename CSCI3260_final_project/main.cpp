@@ -33,7 +33,7 @@ const int SCR_HEIGHT = 600;
 Shader shader;
 #define NUM_OBJ 4
 Model* models[NUM_OBJ];
-glm::vec3 sunPos = glm::vec3(-8.0f, -10.0f, -25.0f);
+glm::vec3 sunPos = glm::vec3(-20.0f, -1.0f, -40.0f);
 
 Camera camera;
 

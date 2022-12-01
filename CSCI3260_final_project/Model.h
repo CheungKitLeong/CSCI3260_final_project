@@ -47,7 +47,7 @@ protected:
 	GLuint vaoID;
 
 private:
-	bool normal_map = false;
+	bool normal_map;
 
 	// load model from path
 	void loadOBJ(const char* objPath);
