@@ -57,5 +57,6 @@ private:
 
 
 	void setPtLight(Shader shader, glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f));
+	void setSpotLight(Shader shader, glm::vec3 color);
 
 };

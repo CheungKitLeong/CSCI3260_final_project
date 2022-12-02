@@ -15,11 +15,15 @@
 
 struct Keys { // For key holding events
 	bool w = false;
+	bool a = false;
 	bool s = false;
+	bool d = false;
 	bool up = false;
 	bool down = false;
 	bool left = false;
 	bool right = false;
+
+	bool g = false;
 };
 
 struct Mouse { // For mouse capture

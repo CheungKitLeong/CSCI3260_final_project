@@ -9,11 +9,25 @@ void Model::setPtLight(Shader shader, glm::vec3 color) {
 	shader.setFloat("ptLight.constant", 1.0f);
 	shader.setFloat("ptLight.linear", 0.09f);
 	shader.setFloat("ptLight.quadratic", 0.032f);
-	shader.setFloat("ptLight.intensity", 50.0f);
+	shader.setFloat("ptLight.intensity", 150.0f);
 
 	shader.setVec3("ptLight.ambient", color * light_params.ambient);
 	shader.setVec3("ptLight.diffuse", color * light_params.diffuse);
 	shader.setVec3("ptLight.specular", color * light_params.specular);
+
+	shader.setFloat("shininess", light_params.shininess);
+}
+
+void Model::setSpotLight(Shader shader, glm::vec3 color) {
+	shader.setFloat("spotLight.constant", 1.0f);
+	shader.setFloat("spotLight.linear", 0.09f);
+	shader.setFloat("spotLight.quadratic", 0.032f);
+	shader.setFloat("spotLight.cutOff", glm::cos(glm::radians(5.0f)));
+	shader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(7.5f)));
+
+	shader.setVec3("spotLight.ambient", color * light_params.ambient);
+	shader.setVec3("spotLight.diffuse", color * light_params.diffuse);
+	shader.setVec3("spotLight.specular", color * light_params.specular);
 
 	shader.setFloat("shininess", light_params.shininess);
 }
@@ -42,6 +56,7 @@ void Model::setTexture(const char* path) {
 void Model::draw(glm::mat4 model, glm::mat4 view, glm::mat4 proj, Shader shader) {
 	shader.use();
 	setPtLight(shader);
+	setSpotLight(shader, glm::vec3(0.8f, 0.0f, 0.0f));
 	// Make uniform variables
 	shader.setMat4("model", model);
 	shader.setMat4("view", view);

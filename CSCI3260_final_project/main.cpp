@@ -33,10 +33,11 @@ const int SCR_HEIGHT = 600;
 Shader shader;
 #define NUM_OBJ 6
 Model* models[NUM_OBJ];
-glm::vec3 sunPos = glm::vec3(-20.0f, -1.0f, -40.0f);
+glm::vec3 sunPos = glm::vec3(-40.0f, -1.0f, -40.0f);
 Keys keyFlag;
 Mouse mouse;
 Camera camera;
+bool spotlight_flag = true;
 
 //Create Astroid Ring, Set rock count and radius
 AstrRing astrRing(200, 5);
@@ -85,6 +86,7 @@ void sendDataToOpenGL()
 	
 	Model* sun = new Model("resources/object/planet.obj");
 	sun->setTexture("resources/texture/sunTexture.jpg");
+	sun->light_params = { 0.9f, 0.05f, 0.05f, 10.0f };
 	models[4] = sun;
 
 	Model* moon = new Model("resources/object/planet.obj");
@@ -126,6 +128,16 @@ void paintGL(void)  //run every frame
 	shader.use();
 	shader.setVec3("viewPos", camera.position);
 	shader.setVec3("ptLight.position", sunPos);
+
+	shader.setVec3("spotLight.position", camera.position + camera.orientation);
+	shader.setVec3("spotLight.direction", camera.orientation);
+
+	if (spotlight_flag) {
+		shader.setFloat("spotLight.intensity", 150.0f);
+	}
+	else {
+		shader.setFloat("spotLight.intensity", 0.0f);
+	}
 	// 
 	//Set transformation matrix
 
@@ -154,9 +166,9 @@ void paintGL(void)  //run every frame
 	models[3]->draw(vehcleTrans, view, proj, shader);
 
 		// *** Drawing object 4: The Sun
-	glm::mat4 sunTrans = glm::translate(model, glm::vec3(-40.0f, 30.0f, -120.0f));
+	glm::mat4 sunTrans = glm::translate(model,sunPos);
 	//sunTrans = glm::rotate(sunTrans, glm::radians(astrRing.ringTimer * 10.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	sunTrans = glm::scale(sunTrans, glm::vec3(10.0f));
+	sunTrans = glm::scale(sunTrans, glm::vec3(5.0f));
 	models[4]->draw(sunTrans, view, proj, shader);
 
 		// *** Drawing object 5: The Moon
@@ -188,28 +200,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-//struct MouseController {
-//	bool LEFT_BUTTON = false;
-//	//double MOUSE_X = 0.0, MOUSE_Y = 0.0;
-//};
-
-//MouseController mouseCtl;
-
-
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {	
-	//if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-	//	mouseCtl.LEFT_BUTTON = true;
-	//	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	//};
-	//if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
-	//	mouseCtl.LEFT_BUTTON = false;
-	//	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-	//	camera.mouseNotMoving = true;
-	//};
-	// Sets the mouse-button callback for the current window.	
-
-	// Sets the mouse-button callback for the current window.
 	if (action == GLFW_PRESS) {
 		glfwGetCursorPos(window, &(mouse.xClick), &(mouse.yClick));
 		if (button == GLFW_MOUSE_BUTTON_LEFT) mouse.left = true;
@@ -239,59 +231,19 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	// Sets the Keyboard callback for the current window.
-		// *** 1. Transform the spacecraft with 4 directions
-	//if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
-	//	camera.xPress -= 1;
-	//	std::cout << camera.xPress << " , " << camera.Position.x << "/";
-	//}
-	//if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
-	//	camera.xPress += 1;
-	//}
-	//if (key == GLFW_KEY_UP && action == GLFW_PRESS) {
-	//	camera.zPress -= 1;
-	//}
-	//if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
-	//	camera.zPress += 1;
-	//}
-
-	//	// *** 1.1 New transform
-	//		//Forward
-	//if (key == GLFW_KEY_W && action == GLFW_PRESS) {
-	//	camera.scTranslation.x += camera.sc_World_Front_Dir.x * 0.5;
-	//	camera.scTranslation.z += camera.sc_World_Front_Dir.z * 0.5;
-	//	//std::cout << camera.xPress << " , " << camera.Position.x << "/";
-	//}
-	//		//Backward
-	//if (key == GLFW_KEY_S && action == GLFW_PRESS) {
-	//	camera.scTranslation.x -= camera.sc_World_Front_Dir.x * 0.5;
-	//	camera.scTranslation.z -= camera.sc_World_Front_Dir.z * 0.5;
-	//}
-	//		//Left
-	//if (key == GLFW_KEY_A && action == GLFW_PRESS) {
-	//	camera.scTranslation.x -= camera.sc_World_Right_Dir.x * 0.5;
-	//	camera.scTranslation.z -= camera.sc_World_Right_Dir.z * 0.5;
-	//}
-	//		//Right
-	//if (key == GLFW_KEY_D && action == GLFW_PRESS) {
-	//	camera.scTranslation.x += camera.sc_World_Right_Dir.x * 0.5;
-	//	camera.scTranslation.z += camera.sc_World_Right_Dir.z * 0.5;
-	//}
-
-	///**/
-	//// *** 2. Camera Rotation, for debug
-	//if (key == GLFW_KEY_Q && action == GLFW_PRESS) {
-	//	camera.yaw -= 1;
-	//}
-	//if (key == GLFW_KEY_E && action == GLFW_PRESS) {
-	//	camera.yaw += 1;
-	//}
+	// G to toggle spotlight
+	if (key == GLFW_KEY_G && action == GLFW_PRESS) {
+		spotlight_flag = !spotlight_flag;
+	}
 
 	camera.set_flag(key, GLFW_KEY_UP, action, keyFlag.up);
 	camera.set_flag(key, GLFW_KEY_DOWN, action, keyFlag.down);
 	camera.set_flag(key, GLFW_KEY_LEFT, action, keyFlag.left);
 	camera.set_flag(key, GLFW_KEY_RIGHT, action, keyFlag.right);
-
+	camera.set_flag(key, GLFW_KEY_W, action, keyFlag.w);
+	camera.set_flag(key, GLFW_KEY_A, action, keyFlag.a);
+	camera.set_flag(key, GLFW_KEY_S, action, keyFlag.s);
+	camera.set_flag(key, GLFW_KEY_D, action, keyFlag.d);
 
 }
 

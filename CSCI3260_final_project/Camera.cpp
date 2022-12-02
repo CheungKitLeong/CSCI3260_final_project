@@ -13,16 +13,16 @@ void Camera::update(Keys keyFlag, Mouse mouse) {
 	glm::vec3 right = glm::normalize(glm::cross(orientation, up));
 	up = glm::normalize(glm::cross(right, orientation));
 
-	if (keyFlag.up) {
+	if (keyFlag.up || keyFlag.w) {
 		position += speed * orientation;
 	}
-	if (keyFlag.down) {
+	if (keyFlag.down || keyFlag.s) {
 		position -= speed * orientation;
 	}
-	if (keyFlag.left) {
+	if (keyFlag.left || keyFlag.a) {
 		position -= speed * right;
 	}
-	if (keyFlag.right) {
+	if (keyFlag.right || keyFlag.d) {
 		position += speed * right;
 	}
 
