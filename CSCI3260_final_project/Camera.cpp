@@ -105,7 +105,7 @@ void Camera::ObjectNew(Model* object, glm::mat4 modelTrans, glm::mat4 view, glm:
 
 }
 
-void Camera::PassiveMouse(int x, int y) {
+void Camera::ProcessMouseMovementNew(int x, int y) {
 
 
 	if (x < oldx)

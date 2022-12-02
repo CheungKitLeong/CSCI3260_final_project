@@ -68,7 +68,7 @@ public:
 	//void Inputs(GLFWwindow* window);
 
 	void ProcessMouseMovement(double x);
-	void PassiveMouse(int x, int y);
+	void ProcessMouseMovementNew(int x, int y);
 
 	void Update();
 	void UpdateNew();

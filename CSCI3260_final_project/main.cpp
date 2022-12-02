@@ -68,12 +68,20 @@ void sendDataToOpenGL()
 	planet->setTexture("resources/texture/earthTexture.bmp");
 	planet->setNormalTexture("resources/texture/earthNormal.bmp");
 	models[0] = planet;
+
 	Model* spacecraft = new Model("resources/object/spacecraft.obj");
 	spacecraft->setTexture("resources/texture/spacecraftTexture.bmp");
 	models[1] = spacecraft;
+
 	Model* rock = new Model("resources/object/rock.obj");
 	rock->setTexture("resources/texture/rockTexture.bmp");
 	models[2] = rock;
+
+	/*
+	Model* vehicle = new Model("resources/object/craft.obj");
+	vehicle->setTexture("resources/texture/vehicleTexture.bmp");
+	models[3] = vehicle;
+	*/
 
 	//Load textures
 }
@@ -122,12 +130,20 @@ void paintGL(void)  //run every frame
 	models[0]->draw(planetTrans, view, proj, shader);
 
 		// *** Drawing object 1: the spacecraft
-	camera.ObjectNew(models[1], model, view, proj, shader);
+	camera.Object(models[1], model, view, proj, shader);
+	//camera.ObjectNew(models[1], model, view, proj, shader);
 
 		// *** Drawing object 2: The rock (1 only)
 	astrRing.Render(models[2], planetTrans, view, proj, shader);
 
+	/*
+		// *** Drawing object 3: Space vehicle
+	glm::mat4 vehcleTrans = glm::translate(model, glm::vec3(0.0f, 0.0f, -20.0f));
+	models[3]->draw(vehcleTrans, view, proj, shader);
+	*/
+
 	camera.Update();
+
 
 // *** Drawing skybox
 	skybox.drawSkybox(view, proj);
@@ -169,6 +185,7 @@ void cursor_position_callback(GLFWwindow* window, double x, double y)
 	if (mouseCtl.LEFT_BUTTON) {
 
 		camera.ProcessMouseMovement(x);
+		//camera.ProcessMouseMovementNew(x, y);
 	};
 	// Sets the cursor position callback for the current window
 }
