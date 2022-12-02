@@ -87,21 +87,44 @@ void Camera::ObjectNew(Model* object, glm::mat4 modelTrans, glm::mat4 view, glm:
 	sc_trans_M = glm::translate(glm::mat4(1.0f), glm::vec3(scInitialPos[0] + scTranslation[0], 
 																	 scInitialPos[1] + scTranslation[1], 
 																	 scInitialPos[2] + scTranslation[2])	);
+	//sc_Rot_M = glm::rotate(glm::mat4(1.0f), glm::radians(viewRotateDegree + 180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	modelMatrix = sc_trans_M * sc_Rot_M * sc_scale_M;
 	sc_world_pos = modelMatrix * glm::vec4(sc_local_pos, 1.0f);
+
 	sc_World_Front_Dir = modelMatrix * glm::vec4(sc_local_front, 1.0f);
 		sc_World_Front_Dir = glm::normalize(sc_World_Front_Dir);
 	sc_World_Right_Dir = modelMatrix * glm::vec4(sc_local_right, 1.0f);
 		sc_World_Right_Dir = glm::normalize(sc_World_Right_Dir);
 	
 	
-	std::cout << "Spacecraft world pos: " << sc_world_pos.x << ","<< sc_world_pos.y << "," << sc_world_pos.z << "\n";
+	std::cout << "Spacecraft world pos: " << scTranslation.x <<  "," << scTranslation.z << "\n";
+
 	object->draw(modelMatrix, view, proj, shader);
+
 
 }
 
+void Camera::PassiveMouse(int x, int y) {
 
+
+	if (x < oldx)
+	{
+		viewRotateDegree += 1.0f;
+		sc_Rot_M = sc_Rot_M = glm::rotate(glm::mat4(1.0f), glm::radians(viewRotateDegree), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	}
+	if (x > oldx)
+	{
+		viewRotateDegree -= 1.0f;
+		sc_Rot_M = sc_Rot_M = glm::rotate(glm::mat4(1.0f), glm::radians(viewRotateDegree), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	}
+	oldx = x;
+
+	std::cout << x << "\n";
+
+}
 
 
 void Camera::UpdateNew() {

@@ -122,7 +122,7 @@ void paintGL(void)  //run every frame
 	models[0]->draw(planetTrans, view, proj, shader);
 
 		// *** Drawing object 1: the spacecraft
-	camera.Object(models[1], model, view, proj, shader);
+	camera.ObjectNew(models[1], model, view, proj, shader);
 
 		// *** Drawing object 2: The rock (1 only)
 	astrRing.Render(models[2], planetTrans, view, proj, shader);
@@ -199,24 +199,24 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		// *** 1.1 New transform
 			//Forward
 	if (key == GLFW_KEY_W && action == GLFW_PRESS) {
-		camera.scTranslation[0] += camera.sc_World_Front_Dir[0] * 0.5;
-		camera.scTranslation[2] += camera.sc_World_Front_Dir[2] * 0.5;
+		camera.scTranslation.x += camera.sc_World_Front_Dir.x * 0.5;
+		camera.scTranslation.z += camera.sc_World_Front_Dir.z * 0.5;
 		//std::cout << camera.xPress << " , " << camera.Position.x << "/";
 	}
 			//Backward
 	if (key == GLFW_KEY_S && action == GLFW_PRESS) {
-		camera.scTranslation[0] -= camera.sc_World_Front_Dir[0] * 0.5;
-		camera.scTranslation[2] -= camera.sc_World_Front_Dir[2] * 0.5;
+		camera.scTranslation.x -= camera.sc_World_Front_Dir.x * 0.5;
+		camera.scTranslation.z -= camera.sc_World_Front_Dir.z * 0.5;
 	}
 			//Left
 	if (key == GLFW_KEY_A && action == GLFW_PRESS) {
-		camera.scTranslation[0] -= camera.sc_World_Right_Dir[0] * 0.5;
-		camera.scTranslation[2] -= camera.sc_World_Right_Dir[2] * 0.5;
+		camera.scTranslation.x -= camera.sc_World_Right_Dir.x * 0.5;
+		camera.scTranslation.z -= camera.sc_World_Right_Dir.z * 0.5;
 	}
 			//Right
 	if (key == GLFW_KEY_D && action == GLFW_PRESS) {
-		camera.scTranslation[0] += camera.sc_World_Right_Dir[0] * 0.5;
-		camera.scTranslation[2] += camera.sc_World_Right_Dir[2] * 0.5;
+		camera.scTranslation.x += camera.sc_World_Right_Dir.x * 0.5;
+		camera.scTranslation.z += camera.sc_World_Right_Dir.z * 0.5;
 	}
 
 	/**/
@@ -268,6 +268,7 @@ int main(int argc, char* argv[])
 	glfwSetScrollCallback(window, scroll_callback);
 	glfwSetCursorPosCallback(window, cursor_position_callback);
 	glfwSetMouseButtonCallback(window, mouse_button_callback);
+	//glutPassiveMotionFunc(camera.PassiveMouse);
 	//camera.Inputs(window);
 
 	initializedGL();
