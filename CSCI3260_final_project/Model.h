@@ -35,6 +35,8 @@ public:
 	Texture normal_texture;
 	LightParam light_params;
 
+	//bool use_strip;
+
 	Model(const char* path);
 
 	void draw(glm::mat4 model, glm::mat4 view, glm::mat4 proj, Shader shader);

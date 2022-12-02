@@ -34,7 +34,8 @@ Shader shader;
 #define NUM_OBJ 6
 Model* models[NUM_OBJ];
 glm::vec3 sunPos = glm::vec3(-20.0f, -1.0f, -40.0f);
-
+Keys keyFlag;
+Mouse mouse;
 Camera camera;
 
 //Create Astroid Ring, Set rock count and radius
@@ -117,17 +118,21 @@ void paintGL(void)  //run every frame
 {
 	glClearColor(0.35f, 0.65f, 0.65f, 1.0f); //specify the background color, this is just an example
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	camera.update(keyFlag, mouse);
+
 	//TODO:
 	//Set lighting information, such as position and color of lighting source
 	shader.use();
-	shader.setVec3("viewPos", camera.Position);
+	shader.setVec3("viewPos", camera.position);
 	shader.setVec3("ptLight.position", sunPos);
 	// 
 	//Set transformation matrix
 
 	 
 	glm::mat4 model = glm::mat4(1.0f);
-	glm::mat4 view = glm::lookAt(camera.Position , camera.Position + camera.Orientation, camera.Up);
+	glm::mat4 view = glm::lookAt(camera.position , camera.position + camera.orientation, camera.up);
+	//glm::mat4 proj = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
 	glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)(SCR_WIDTH / SCR_HEIGHT), 0.1f, 150.0f);
 	
 	
@@ -137,13 +142,12 @@ void paintGL(void)  //run every frame
 	models[0]->draw(planetTrans, view, proj, shader);
 
 		// *** Drawing object 1: the spacecraft
-	camera.Object(models[1], model, view, proj, shader);
+	camera.draw_spacecraft(models[1], model, view, proj, shader);
 	//camera.ObjectNew(models[1], model, view, proj, shader);
 
 		// *** Drawing object 2: The rock (1 only)
 	astrRing.Render(models[2], planetTrans, view, proj, shader);
 
-	/**/
 		// *** Drawing object 3: Space vehicle
 	glm::mat4 vehcleTrans = glm::translate(model, glm::vec3(10.0f, 0.0f, -40.0f));
 	vehcleTrans = glm::scale(vehcleTrans, glm::vec3(0.2f));
@@ -170,10 +174,8 @@ void paintGL(void)  //run every frame
 	moonTrans = glm::scale(moonTrans, glm::vec3(0.2f));
 	models[5]->draw(moonTrans, view, proj, shader);
 
-	camera.Update();
 
-
-// *** Drawing skybox
+		// *** Drawing skybox
 	skybox.drawSkybox(view, proj);
 
 
@@ -186,36 +188,48 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-struct MouseController {
-	bool LEFT_BUTTON = false;
-	//double MOUSE_X = 0.0, MOUSE_Y = 0.0;
-};
+//struct MouseController {
+//	bool LEFT_BUTTON = false;
+//	//double MOUSE_X = 0.0, MOUSE_Y = 0.0;
+//};
 
-MouseController mouseCtl;
+//MouseController mouseCtl;
 
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {	
-	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-		mouseCtl.LEFT_BUTTON = true;
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	};
-	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
-		mouseCtl.LEFT_BUTTON = false;
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		camera.mouseNotMoving = true;
-	};
+	//if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+	//	mouseCtl.LEFT_BUTTON = true;
+	//	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//};
+	//if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+	//	mouseCtl.LEFT_BUTTON = false;
+	//	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	//	camera.mouseNotMoving = true;
+	//};
 	// Sets the mouse-button callback for the current window.	
+
+	// Sets the mouse-button callback for the current window.
+	if (action == GLFW_PRESS) {
+		glfwGetCursorPos(window, &(mouse.xClick), &(mouse.yClick));
+		if (button == GLFW_MOUSE_BUTTON_LEFT) mouse.left = true;
+		if (button == GLFW_MOUSE_BUTTON_RIGHT) mouse.right = true;
+	}
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) mouse.left = false;
+	if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE) mouse.right = false;
 }
 
 void cursor_position_callback(GLFWwindow* window, double x, double y)
 {
-	if (mouseCtl.LEFT_BUTTON) {
+	//if (mouseCtl.LEFT_BUTTON) {
 
-		camera.ProcessMouseMovement(x);
-		//camera.ProcessMouseMovementNew(x, y);
-	};
+	//	camera.ProcessMouseMovement(x);
+	//	//camera.ProcessMouseMovementNew(x, y);
+	//};
 	// Sets the cursor position callback for the current window
+
+	mouse.x = x;
+	mouse.y = y;
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
@@ -227,51 +241,56 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 {
 	// Sets the Keyboard callback for the current window.
 		// *** 1. Transform the spacecraft with 4 directions
-	if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
-		camera.xPress -= 1;
-		std::cout << camera.xPress << " , " << camera.Position.x << "/";
-	}
-	if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
-		camera.xPress += 1;
-	}
-	if (key == GLFW_KEY_UP && action == GLFW_PRESS) {
-		camera.zPress -= 1;
-	}
-	if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
-		camera.zPress += 1;
-	}
+	//if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
+	//	camera.xPress -= 1;
+	//	std::cout << camera.xPress << " , " << camera.Position.x << "/";
+	//}
+	//if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
+	//	camera.xPress += 1;
+	//}
+	//if (key == GLFW_KEY_UP && action == GLFW_PRESS) {
+	//	camera.zPress -= 1;
+	//}
+	//if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
+	//	camera.zPress += 1;
+	//}
 
-		// *** 1.1 New transform
-			//Forward
-	if (key == GLFW_KEY_W && action == GLFW_PRESS) {
-		camera.scTranslation.x += camera.sc_World_Front_Dir.x * 0.5;
-		camera.scTranslation.z += camera.sc_World_Front_Dir.z * 0.5;
-		//std::cout << camera.xPress << " , " << camera.Position.x << "/";
-	}
-			//Backward
-	if (key == GLFW_KEY_S && action == GLFW_PRESS) {
-		camera.scTranslation.x -= camera.sc_World_Front_Dir.x * 0.5;
-		camera.scTranslation.z -= camera.sc_World_Front_Dir.z * 0.5;
-	}
-			//Left
-	if (key == GLFW_KEY_A && action == GLFW_PRESS) {
-		camera.scTranslation.x -= camera.sc_World_Right_Dir.x * 0.5;
-		camera.scTranslation.z -= camera.sc_World_Right_Dir.z * 0.5;
-	}
-			//Right
-	if (key == GLFW_KEY_D && action == GLFW_PRESS) {
-		camera.scTranslation.x += camera.sc_World_Right_Dir.x * 0.5;
-		camera.scTranslation.z += camera.sc_World_Right_Dir.z * 0.5;
-	}
+	//	// *** 1.1 New transform
+	//		//Forward
+	//if (key == GLFW_KEY_W && action == GLFW_PRESS) {
+	//	camera.scTranslation.x += camera.sc_World_Front_Dir.x * 0.5;
+	//	camera.scTranslation.z += camera.sc_World_Front_Dir.z * 0.5;
+	//	//std::cout << camera.xPress << " , " << camera.Position.x << "/";
+	//}
+	//		//Backward
+	//if (key == GLFW_KEY_S && action == GLFW_PRESS) {
+	//	camera.scTranslation.x -= camera.sc_World_Front_Dir.x * 0.5;
+	//	camera.scTranslation.z -= camera.sc_World_Front_Dir.z * 0.5;
+	//}
+	//		//Left
+	//if (key == GLFW_KEY_A && action == GLFW_PRESS) {
+	//	camera.scTranslation.x -= camera.sc_World_Right_Dir.x * 0.5;
+	//	camera.scTranslation.z -= camera.sc_World_Right_Dir.z * 0.5;
+	//}
+	//		//Right
+	//if (key == GLFW_KEY_D && action == GLFW_PRESS) {
+	//	camera.scTranslation.x += camera.sc_World_Right_Dir.x * 0.5;
+	//	camera.scTranslation.z += camera.sc_World_Right_Dir.z * 0.5;
+	//}
 
-	/**/
-	// *** 2. Camera Rotation, for debug
-	if (key == GLFW_KEY_Q && action == GLFW_PRESS) {
-		camera.yaw -= 1;
-	}
-	if (key == GLFW_KEY_E && action == GLFW_PRESS) {
-		camera.yaw += 1;
-	}
+	///**/
+	//// *** 2. Camera Rotation, for debug
+	//if (key == GLFW_KEY_Q && action == GLFW_PRESS) {
+	//	camera.yaw -= 1;
+	//}
+	//if (key == GLFW_KEY_E && action == GLFW_PRESS) {
+	//	camera.yaw += 1;
+	//}
+
+	camera.set_flag(key, GLFW_KEY_UP, action, keyFlag.up);
+	camera.set_flag(key, GLFW_KEY_DOWN, action, keyFlag.down);
+	camera.set_flag(key, GLFW_KEY_LEFT, action, keyFlag.left);
+	camera.set_flag(key, GLFW_KEY_RIGHT, action, keyFlag.right);
 
 
 }

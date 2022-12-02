@@ -26,6 +26,7 @@ Model::Model(const char* path){
 	light_params.specular = 0.3f;
 	light_params.shininess = 10.0f;
 	normal_map = false;
+	//use_strip = false;
 }
 
 
@@ -60,7 +61,9 @@ void Model::draw(glm::mat4 model, glm::mat4 view, glm::mat4 proj, Shader shader)
 	}
 
 	glBindVertexArray(vaoID); // Bind VAO
+
 	glDrawElements(GL_TRIANGLES, static_cast<unsigned int> (indices.size()), GL_UNSIGNED_INT, 0);
+
 	glBindVertexArray(0);
 }
 
