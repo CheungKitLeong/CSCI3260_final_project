@@ -31,7 +31,7 @@ const int SCR_HEIGHT = 600;
 // global var
 #define ORIGIN glm::vec3(0.0f)
 Shader shader;
-#define NUM_OBJ 4
+#define NUM_OBJ 6
 Model* models[NUM_OBJ];
 glm::vec3 sunPos = glm::vec3(-20.0f, -1.0f, -40.0f);
 
@@ -77,11 +77,18 @@ void sendDataToOpenGL()
 	rock->setTexture("resources/texture/rockTexture.bmp");
 	models[2] = rock;
 
-	/*
-	Model* vehicle = new Model("resources/object/craft.obj");
+	/**/
+	Model* vehicle = new Model("resources/object/vehicle.obj");
 	vehicle->setTexture("resources/texture/vehicleTexture.bmp");
 	models[3] = vehicle;
-	*/
+	
+	Model* sun = new Model("resources/object/planet.obj");
+	sun->setTexture("resources/texture/sunTexture.jpg");
+	models[4] = sun;
+
+	Model* moon = new Model("resources/object/planet.obj");
+	moon->setTexture("resources/texture/moonTexture.jpg");
+	models[5] = moon;
 
 	//Load textures
 }
@@ -121,7 +128,7 @@ void paintGL(void)  //run every frame
 	 
 	glm::mat4 model = glm::mat4(1.0f);
 	glm::mat4 view = glm::lookAt(camera.Position , camera.Position + camera.Orientation, camera.Up);
-	glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)(SCR_WIDTH / SCR_HEIGHT), 0.1f, 100.0f);
+	glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)(SCR_WIDTH / SCR_HEIGHT), 0.1f, 150.0f);
 	
 	
 		// *** Drawing object 0: The planet
@@ -136,11 +143,32 @@ void paintGL(void)  //run every frame
 		// *** Drawing object 2: The rock (1 only)
 	astrRing.Render(models[2], planetTrans, view, proj, shader);
 
-	/*
+	/**/
 		// *** Drawing object 3: Space vehicle
-	glm::mat4 vehcleTrans = glm::translate(model, glm::vec3(0.0f, 0.0f, -20.0f));
+	glm::mat4 vehcleTrans = glm::translate(model, glm::vec3(10.0f, 0.0f, -40.0f));
+	vehcleTrans = glm::scale(vehcleTrans, glm::vec3(0.2f));
 	models[3]->draw(vehcleTrans, view, proj, shader);
-	*/
+
+		// *** Drawing object 4: The Sun
+	glm::mat4 sunTrans = glm::translate(model, glm::vec3(-40.0f, 30.0f, -120.0f));
+	//sunTrans = glm::rotate(sunTrans, glm::radians(astrRing.ringTimer * 10.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	sunTrans = glm::scale(sunTrans, glm::vec3(10.0f));
+	models[4]->draw(sunTrans, view, proj, shader);
+
+		// *** Drawing object 5: The Moon
+	glm::vec3 moonOffset = glm::vec3(0.0f, 0.0f, 6.0f);
+	//glm::mat4 moonTrans = glm::translate(model, glm::vec3(3.0f, 5.0f, -40.0f));
+	glm::mat4 moonTrans = glm::translate(planetTrans, glm::vec3(0.0f, 0.5f, 0.0f));
+	moonTrans = glm::translate(moonTrans, moonOffset);
+	//moonTrans = glm::rotate(moonTrans, glm::radians(astrRing.ringTimer * 40.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	moonTrans = glm::translate(moonTrans, -moonOffset);
+	moonTrans = glm::rotate(moonTrans, glm::radians(astrRing.ringTimer * 10.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//moonTrans = glm::rotate(moonTrans, glm::radians(astrRing.ringTimer * 10.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	moonTrans = glm::translate(moonTrans, moonOffset);
+
+	moonTrans = glm::scale(moonTrans, glm::vec3(0.2f));
+	models[5]->draw(moonTrans, view, proj, shader);
 
 	camera.Update();
 

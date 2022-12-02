@@ -62,19 +62,32 @@ void Camera::Object(Model* object, glm::mat4 modelTrans, glm::mat4 view, glm::ma
 void Camera::Update() {
 
 
-	//Camera::ProcessMouseMovement(rotation);
+	//Position += 0.1f * xPress * glm::normalize(glm::cross(Orientation, Up));
+	//Position += 0.1f * xPress * Orientation;
 
+	/**/
 	glm::vec3 direction;
 	direction.x = cos(glm::radians(yaw)); //* cos(glm::radians(pitch));
 	direction.y = 0.0f; //sin(glm::radians(pitch));
 	direction.z = sin(glm::radians(yaw)); //* cos(glm::radians(pitch));
 	Orientation = glm::normalize(direction);
+	
 
+	/* //Old ver.*/
 	Position.x = speed * xPress;
 	Position.z = speed * zPress;
-	//std::cout << "Direction x and z: " << Orientation.x << " , " << Orientation.z <<  ";\n"; //<< pitch << "\n";
-	//std::cout << "Position x and z: " << Position.x << " , " << Position.z << ";\n"; //<< pitch << "\n";
+	
+
+
+	std::cout << "Direction x and z: " << Orientation.x << " , " << Orientation.z <<  ";\n"; //<< pitch << "\n";
+	std::cout << "Position x and z: " << Position.x << " , " << Position.z << ";\n"; //<< pitch << "\n";
 }
+
+
+
+
+
+
 
 
 
