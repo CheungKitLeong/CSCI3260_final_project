@@ -70,37 +70,34 @@ void Camera::Update() {
 	direction.z = sin(glm::radians(yaw)); //* cos(glm::radians(pitch));
 	Orientation = glm::normalize(direction);
 
-	Position.x = Orientation.x * xPress;
-	Position.z = Orientation.z * zPress;
-	std::cout << "Direction x and z: " << Orientation.x << " , " << Orientation.z <<  ";\n"; //<< pitch << "\n";
-	std::cout << "Position x and z: " << Position.x << " , " << Position.z << ";\n"; //<< pitch << "\n";
+	Position.x = speed * xPress;
+	Position.z = speed * zPress;
+	//std::cout << "Direction x and z: " << Orientation.x << " , " << Orientation.z <<  ";\n"; //<< pitch << "\n";
+	//std::cout << "Position x and z: " << Position.x << " , " << Position.z << ";\n"; //<< pitch << "\n";
 }
 
-//*** New codes
+
+
+
+//*** New Experimenting codes
 
 void Camera::ObjectNew(Model* object, glm::mat4 modelTrans, glm::mat4 view, glm::mat4 proj, Shader shader) {
 	
-	glm::vec3 SCInitialPos = glm::vec3(0);
-	glm::vec3 SCTranslation = glm::vec3(0);
-	glm::vec3 SC_local_pos;
-	glm::vec3 SC_world_pos;
-	glm::mat4 Model_matrix;
+	sc_scale_M = glm::scale(glm::mat4(1.0f), glm::vec3(scale));
+	sc_trans_M = glm::translate(glm::mat4(1.0f), glm::vec3(scInitialPos[0] + scTranslation[0], 
+																	 scInitialPos[1] + scTranslation[1], 
+																	 scInitialPos[2] + scTranslation[2])	);
 
-
-	float scale = 0.0005;
-	glm::mat4 SC_scale_M = glm::scale(glm::mat4(1.0f), glm::vec3(scale));
-	glm::mat4 SC_trans_M = glm::translate(glm::mat4(1.0f), glm::vec3(SCInitialPos[0] + SCTranslation[0], 
-																	 SCInitialPos[1] + SCTranslation[1], 
-																	 SCInitialPos[2] + SCTranslation[2])	);
-	glm::mat4 SC_Rot_M;
-
-	Model_matrix = SC_trans_M * SC_Rot_M * SC_scale_M;
-	SC_world_pos = Model_matrix * glm::vec4(SC_local_pos, 1.0f);
-
+	modelMatrix = sc_trans_M * sc_Rot_M * sc_scale_M;
+	sc_world_pos = modelMatrix * glm::vec4(sc_local_pos, 1.0f);
+	sc_World_Front_Dir = modelMatrix * glm::vec4(sc_local_front, 1.0f);
+		sc_World_Front_Dir = glm::normalize(sc_World_Front_Dir);
+	sc_World_Right_Dir = modelMatrix * glm::vec4(sc_local_right, 1.0f);
+		sc_World_Right_Dir = glm::normalize(sc_World_Right_Dir);
 	
 	
-	
-	object->draw(modelTrans, view, proj, shader);
+	std::cout << "Spacecraft world pos: " << sc_world_pos.x << ","<< sc_world_pos.y << "," << sc_world_pos.z << "\n";
+	object->draw(modelMatrix, view, proj, shader);
 
 }
 

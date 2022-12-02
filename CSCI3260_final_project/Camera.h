@@ -26,6 +26,25 @@ public:
 	float yaw = -90;
 	float sensitivity = 1.0f;
 
+		// * Camera Object variables
+	glm::vec3 scInitialPos = glm::vec3(0);
+	glm::vec3 scTranslation = glm::vec3(0);
+	glm::vec3 sc_local_pos = glm::vec3(0, 0, 20.0f);  
+	glm::vec3 sc_world_pos;
+
+	glm::mat4 sc_trans_M;
+	glm::mat4 sc_Rot_M = glm::mat4(0);
+	glm::mat4 sc_scale_M;
+	float scale = 0.0005;
+
+	glm::mat4 modelMatrix;
+	glm::vec3 sc_local_front = glm::vec3(0, 0, -1.0f);	
+	glm::vec3 sc_local_right = glm::vec3(1.0f, 0, 0);
+	glm::vec4 sc_World_Front_Dir;
+	glm::vec4 sc_World_Right_Dir;
+
+		//***
+
 
 	glm::vec3 Position = glm::vec3(0.0f, 0.0f, 10.0f);
 	glm::vec3 Orientation = glm::vec3(0.0f, 0.0f, -1.0f);

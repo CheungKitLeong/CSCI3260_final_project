@@ -196,14 +196,38 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		camera.zPress += 1;
 	}
 
-	// *** 2. Camera Rotation, for debug
+		// *** 1.1 New transform
+			//Forward
+	if (key == GLFW_KEY_W && action == GLFW_PRESS) {
+		camera.scTranslation[0] += camera.sc_World_Front_Dir[0] * 0.5;
+		camera.scTranslation[2] += camera.sc_World_Front_Dir[2] * 0.5;
+		//std::cout << camera.xPress << " , " << camera.Position.x << "/";
+	}
+			//Backward
+	if (key == GLFW_KEY_S && action == GLFW_PRESS) {
+		camera.scTranslation[0] -= camera.sc_World_Front_Dir[0] * 0.5;
+		camera.scTranslation[2] -= camera.sc_World_Front_Dir[2] * 0.5;
+	}
+			//Left
 	if (key == GLFW_KEY_A && action == GLFW_PRESS) {
+		camera.scTranslation[0] -= camera.sc_World_Right_Dir[0] * 0.5;
+		camera.scTranslation[2] -= camera.sc_World_Right_Dir[2] * 0.5;
+	}
+			//Right
+	if (key == GLFW_KEY_D && action == GLFW_PRESS) {
+		camera.scTranslation[0] += camera.sc_World_Right_Dir[0] * 0.5;
+		camera.scTranslation[2] += camera.sc_World_Right_Dir[2] * 0.5;
+	}
+
+	/**/
+	// *** 2. Camera Rotation, for debug
+	if (key == GLFW_KEY_Q && action == GLFW_PRESS) {
 		camera.yaw -= 1;
 	}
-	if (key == GLFW_KEY_D && action == GLFW_PRESS) {
+	if (key == GLFW_KEY_E && action == GLFW_PRESS) {
 		camera.yaw += 1;
 	}
-	
+
 
 }
 
