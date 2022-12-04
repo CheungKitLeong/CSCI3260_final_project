@@ -16,38 +16,44 @@ using namespace std;
 }
 
 
-void Vehicle::Render(Model* vehicle, glm::mat4 vehicleTrans, glm::mat4 view, glm::mat4 proj, Shader shader) {
+void Vehicle::Render(Model* vehicle, float speed, glm::mat4 vehicleTrans, glm::mat4 view, glm::mat4 proj, Shader shader) {
+
+	vSpeed = speed;
+	distance = 25.0f;
 
 	timer = glfwGetTime() - 3;
-//movingRight = false;
-	leftTimer = -timer * vSpeed;
-	//rightTimer = -1;
 
-	vehicleTrans = glm::translate(vehicleTrans, glm::vec3(12.0f, 0.0f, -30.0f));
 
-	if (leftTimer <= -25.0f)
+		// When hiting the left boundary, turn to the right
+	if (leftTimer <= -distance) {
 		movingRight = true;
+		cycle += 1;
+		cout << "Cycle: " << cycle << "\n";
+		leftTimer = 0;
+
+	}
 	std::cout << "Moveing Right? :" << movingRight << "\n";
 
 	/**/
+			// When hiting the right boundary, turn to the left
 	if (rightTimer >= 0.0f) {
 		movingRight = false;
 		//leftTimer = timer * 5.0f + 120.0f;
-		rightTimer = 0;
+		rightTimer = -1;
 	}
 	std::cout << "Moveing Right? :" << movingRight << "\n";
 	
 
 	if (!movingRight) {
+		leftTimer = - timer * vSpeed + cycle * 2 * distance;
 		vehicleTrans = glm::translate(vehicleTrans, glm::vec3(leftTimer, 0.0f, 0.0f));
-		//leftTimer = 0;
 		std::cout << "Left Timer: " << leftTimer << "\n";
 		std::cout << "Moveing Left!!!" << "\n";
 
 	}
 	else {
 		//float tmpLeft = leftTimer;
-		rightTimer = timer * vSpeed - 50.0f;
+		rightTimer = timer * vSpeed - cycle * 2 * distance;
 		//std::cout << rightTimer <<","<<tmpLeft << "\n";
 		vehicleTrans = glm::translate(vehicleTrans, glm::vec3(rightTimer, 0.0f, 0.0f));
 		std::cout << "Right Timer: " << rightTimer << "\n";

@@ -165,51 +165,21 @@ void paintGL(void)  //run every frame
 
 
 		// *** Drawing object 3: Space vehicle
-	vehicle.Render(models[3], model, view, proj, shader);
-	/*
-	glm::mat4 vehcleTrans = glm::translate(model, glm::vec3(8.0f, 0.0f, -30.0f));
-	vehcleTrans = glm::scale(vehcleTrans, glm::vec3(0.2f));
-	
-	float vSpeed = 10.0f;
-	bool movingRight = false;
-	float timer = astrRing.ringTimer;
-	float leftTimer = -timer * vSpeed;
-	float rightTimer = -1;
+	glm::mat4 vehicleTrans = glm::translate(model, glm::vec3(15.0f, 0.0f, -45.0f));
+	vehicle.Render(models[3], 10.0f, vehicleTrans, view, proj, shader);
 
-	//bool changingSide = false;
+	vehicleTrans = glm::translate(model, glm::vec3(12.0f, 0.0f, -40.0f));
+	vehicle.Render(models[3], 10.0f, vehicleTrans, view, proj, shader);
 
-	if (leftTimer <= -60.0f)
-		movingRight = true;
-	std::cout <<"Moveing Right? :"  <<movingRight << "\n";
+	vehicleTrans = glm::translate(model, glm::vec3(1.0f, 0.0f, -30.0f));
+	vehicle.Render(models[3], 10.0f, vehicleTrans, view, proj, shader);
 
-	if (rightTimer >= 0.0f) {
-		movingRight = false;
-		//leftTimer = timer * 5.0f + 120.0f;
-		rightTimer = 0;
-	}
-	std::cout << "Moveing Right? :" << movingRight << "\n";
+	vehicleTrans = glm::translate(model, glm::vec3(7.0f, 0.0f, -20.0f));
+	vehicle.Render(models[3], 10.0f, vehicleTrans, view, proj, shader);
 
-	if (!movingRight) {
-		vehcleTrans = glm::translate(vehcleTrans, glm::vec3(leftTimer, 0.0f, -40.0f));
-		//leftTimer = 0;
-		std::cout << "Left Timer: " << leftTimer << "\n";
-		std::cout << "Moveing Left!!!" << "\n";
+	vehicleTrans = glm::translate(model, glm::vec3(19.0f, 0.0f, -10.0f));
+	vehicle.Render(models[3], 10.0f, vehicleTrans, view, proj, shader);
 
-	}
-	else {
-		float tmpLeft = leftTimer; 
-		rightTimer = timer * vSpeed - 120.0f;
-		//std::cout << rightTimer <<","<<tmpLeft << "\n";
-		vehcleTrans = glm::translate(vehcleTrans, glm::vec3(rightTimer, 0.0f, -40.0f));
-		std::cout << "Right Timer: " << rightTimer << "\n";
-		std::cout << "Moveing Right!!!" << "\n";
-
-	};
-
-		//vehcleTrans = glm::translate(vehcleTrans, glm::vec3(astrRing.ringTimer *5.0f, 0.0f, -40.0f));
-
-	models[3]->draw(vehcleTrans, view, proj, shader);
-*/
 
 		// *** Drawing object 4: The Sun
 	glm::mat4 sunTrans = glm::translate(model,sunPos);

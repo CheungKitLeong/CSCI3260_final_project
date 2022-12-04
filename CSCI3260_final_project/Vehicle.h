@@ -17,14 +17,18 @@
 class Vehicle {
 public:
 
-	float vSpeed = 10.0f;
+
 	bool movingRight = false;
 	float timer = 0;
 	float leftTimer = -timer * vSpeed;
 	float rightTimer = -1;
+	int cycle = 0;
+
+	float vSpeed = 10.0f;
+	float distance = 0;
 
 	Vehicle();
 
-	void Render(Model* vehicle, glm::mat4 vehicleTrans,  glm::mat4 view, glm::mat4 proj, Shader shader);
+	void Render(Model* vehicle, float speed, glm::mat4 vehicleTrans,  glm::mat4 view, glm::mat4 proj, Shader shader);
 
 };
