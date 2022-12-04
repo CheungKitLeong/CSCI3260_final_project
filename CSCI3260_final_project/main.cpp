@@ -160,10 +160,33 @@ void paintGL(void)  //run every frame
 		// *** Drawing object 2: The rock (1 only)
 	astrRing.Render(models[2], planetTrans, view, proj, shader);
 
+
 		// *** Drawing object 3: Space vehicle
-	glm::mat4 vehcleTrans = glm::translate(model, glm::vec3(10.0f, 0.0f, -40.0f));
+	glm::mat4 vehcleTrans = glm::translate(model, glm::vec3(8.0f, 0.0f, -30.0f));
 	vehcleTrans = glm::scale(vehcleTrans, glm::vec3(0.2f));
+
+	bool movingRight = false;
+	float timer = astrRing.ringTimer;
+	float leftTimer = -timer * 5.0f;
+	//bool changingSide = false;
+
+	if (leftTimer <= -60.0f)
+		movingRight = true;
+	//std::cout << -astrRing.ringTimer * 5.0f << "\n";
+
+	if (!movingRight)
+		vehcleTrans = glm::translate(vehcleTrans, glm::vec3(leftTimer, 0.0f, -40.0f));
+	else {
+		float tmpLeft = leftTimer, rightTimer = timer * 5.0f + tmpLeft;
+		std::cout << rightTimer <<","<<tmpLeft << "\n";
+		vehcleTrans = glm::translate(vehcleTrans, glm::vec3(rightTimer, 0.0f, -40.0f));
+
+	}
+
+		//vehcleTrans = glm::translate(vehcleTrans, glm::vec3(astrRing.ringTimer *5.0f, 0.0f, -40.0f));
+
 	models[3]->draw(vehcleTrans, view, proj, shader);
+
 
 		// *** Drawing object 4: The Sun
 	glm::mat4 sunTrans = glm::translate(model,sunPos);

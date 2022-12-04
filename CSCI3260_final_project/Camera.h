@@ -44,8 +44,8 @@ public:
 	glm::vec3 orientation = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	float speed = 1.0f;
-	float sensitivity = 0.05f;
+	float speed = 0.2f;
+	float sensitivity = 0.01f;
 
 	void static set_flag(int key, int pressedKey, int action, bool& flag);
 
