@@ -7,7 +7,6 @@
 
 #include "Shader.h"
 #include "Model.h"
-#include "Shader.h"
 
 #include <vector>
 #include <queue>

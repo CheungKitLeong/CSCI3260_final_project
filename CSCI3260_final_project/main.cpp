@@ -15,6 +15,7 @@ Student Name:
 #include "Camera.h"
 #include "AstrRing.h"
 #include "Skybox.h"
+#include "Vehicle.h"
 
 #include <iostream>
 #include <fstream>
@@ -43,6 +44,8 @@ bool spotlight_flag = true;
 AstrRing astrRing(200, 5);
 
 Skybox skybox;
+
+Vehicle vehicle;
 
 
 void cleanup() {
@@ -162,31 +165,51 @@ void paintGL(void)  //run every frame
 
 
 		// *** Drawing object 3: Space vehicle
+	vehicle.Render(models[3], model, view, proj, shader);
+	/*
 	glm::mat4 vehcleTrans = glm::translate(model, glm::vec3(8.0f, 0.0f, -30.0f));
 	vehcleTrans = glm::scale(vehcleTrans, glm::vec3(0.2f));
-
+	
+	float vSpeed = 10.0f;
 	bool movingRight = false;
 	float timer = astrRing.ringTimer;
-	float leftTimer = -timer * 5.0f;
+	float leftTimer = -timer * vSpeed;
+	float rightTimer = -1;
+
 	//bool changingSide = false;
 
 	if (leftTimer <= -60.0f)
 		movingRight = true;
-	//std::cout << -astrRing.ringTimer * 5.0f << "\n";
+	std::cout <<"Moveing Right? :"  <<movingRight << "\n";
 
-	if (!movingRight)
+	if (rightTimer >= 0.0f) {
+		movingRight = false;
+		//leftTimer = timer * 5.0f + 120.0f;
+		rightTimer = 0;
+	}
+	std::cout << "Moveing Right? :" << movingRight << "\n";
+
+	if (!movingRight) {
 		vehcleTrans = glm::translate(vehcleTrans, glm::vec3(leftTimer, 0.0f, -40.0f));
-	else {
-		float tmpLeft = leftTimer, rightTimer = timer * 5.0f + tmpLeft;
-		std::cout << rightTimer <<","<<tmpLeft << "\n";
-		vehcleTrans = glm::translate(vehcleTrans, glm::vec3(rightTimer, 0.0f, -40.0f));
+		//leftTimer = 0;
+		std::cout << "Left Timer: " << leftTimer << "\n";
+		std::cout << "Moveing Left!!!" << "\n";
 
 	}
+	else {
+		float tmpLeft = leftTimer; 
+		rightTimer = timer * vSpeed - 120.0f;
+		//std::cout << rightTimer <<","<<tmpLeft << "\n";
+		vehcleTrans = glm::translate(vehcleTrans, glm::vec3(rightTimer, 0.0f, -40.0f));
+		std::cout << "Right Timer: " << rightTimer << "\n";
+		std::cout << "Moveing Right!!!" << "\n";
+
+	};
 
 		//vehcleTrans = glm::translate(vehcleTrans, glm::vec3(astrRing.ringTimer *5.0f, 0.0f, -40.0f));
 
 	models[3]->draw(vehcleTrans, view, proj, shader);
-
+*/
 
 		// *** Drawing object 4: The Sun
 	glm::mat4 sunTrans = glm::translate(model,sunPos);
