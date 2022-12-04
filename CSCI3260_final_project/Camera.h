@@ -44,7 +44,8 @@ public:
 	glm::vec3 orientation = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	float speed = 0.05f;
+	glm::mat4 camModelTrans = glm::mat4(1.0f);
+	float speed = 0.1f;
 	float sensitivity = 0.01f;
 
 	void static set_flag(int key, int pressedKey, int action, bool& flag);
@@ -52,5 +53,7 @@ public:
 	void update(Keys keyFlag, Mouse mouse);
 
 	void draw_spacecraft(Model* object, glm::mat4 modelTrans, glm::mat4 view, glm::mat4 proj, Shader shader);
+
+	glm::mat4 PlanePosition();
 
 };

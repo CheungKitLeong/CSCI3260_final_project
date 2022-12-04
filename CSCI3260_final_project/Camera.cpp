@@ -45,11 +45,16 @@ void Camera::set_flag(int key, int pressedKey, int action, bool& flag) {
 void Camera::draw_spacecraft(Model* object, glm::mat4 modelTrans, glm::mat4 view, glm::mat4 proj, Shader shader) {
 
 	glm::vec3 planeOffSet = glm::vec3(0.0f, -0.3f, 0.0f);
-	modelTrans = glm::mat4(1.0f);
-	modelTrans = glm::translate(modelTrans, position + orientation + planeOffSet);
-	modelTrans = glm::rotate(modelTrans, glm::orientedAngle(glm::vec3(0.0f, 0.0f, -1.0f), orientation, up), up);
-	modelTrans = glm::scale(modelTrans, glm::vec3(0.0005, 0.0005, 0.0005));
-	object->draw(modelTrans, view, proj, shader);
+	camModelTrans = glm::mat4(1.0f);
+	camModelTrans = glm::translate(modelTrans, position + orientation + planeOffSet);
+	camModelTrans = glm::rotate(camModelTrans, glm::orientedAngle(glm::vec3(0.0f, 0.0f, -1.0f), orientation, up), up);
+	camModelTrans = glm::scale(camModelTrans, glm::vec3(0.0005, 0.0005, 0.0005));
+	object->draw(camModelTrans, view, proj, shader);
 
+}
+
+glm::mat4 Camera::PlanePosition() {
+
+	return camModelTrans;
 }
 

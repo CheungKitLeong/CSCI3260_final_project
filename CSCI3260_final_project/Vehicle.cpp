@@ -16,7 +16,7 @@ using namespace std;
 }
 
 
-void Vehicle::Render(Model* vehicle, float speed, glm::mat4 vehicleTrans, glm::mat4 view, glm::mat4 proj, Shader shader) {
+void Vehicle::Render(Model* vehicle, float speed, glm::mat4 vehicleTrans, glm::mat4 cameraObjTrans, glm::mat4 view, glm::mat4 proj, Shader shader) {
 
 	vSpeed = speed;
 	distance = 25.0f;
@@ -63,6 +63,26 @@ void Vehicle::Render(Model* vehicle, float speed, glm::mat4 vehicleTrans, glm::m
 
 	vehicleTrans = glm::scale(vehicleTrans, glm::vec3(0.2f));
 
-	vehicle->draw(vehicleTrans, view, proj, shader);
+	vectorA = cameraObjTrans * glm::vec4(0.0, 0.0, 0.0, 1.0);
+	vectorB = vehicleTrans * glm::vec4(0.0, 0.0, 0.0, 1.0);
 
+	if (Vehicle::Collision(vectorA, vectorB)) {
+		cout<< "Detected!" << "\n";
+		shader.setInt("detected", 1);
+
+	}
+	else
+		shader.setInt("detected", 0);
+
+	vehicle->draw(vehicleTrans, view, proj, shader);
+	shader.setInt("detected", 0);
+
+}
+
+bool Vehicle::Collision(glm::vec4 vectorA, glm::vec4 vectorB) {
+
+	if (glm::length(vectorA - vectorB) <= 5)
+		return true;
+	else
+		return false;
 }

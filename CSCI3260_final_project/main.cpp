@@ -166,19 +166,19 @@ void paintGL(void)  //run every frame
 
 		// *** Drawing object 3: Space vehicle
 	glm::mat4 vehicleTrans = glm::translate(model, glm::vec3(15.0f, 0.0f, -45.0f));
-	vehicle.Render(models[3], 10.0f, vehicleTrans, view, proj, shader);
+	vehicle.Render(models[3], 10.0f, vehicleTrans, camera.PlanePosition(), view, proj, shader);
 
 	vehicleTrans = glm::translate(model, glm::vec3(12.0f, 0.0f, -40.0f));
-	vehicle.Render(models[3], 10.0f, vehicleTrans, view, proj, shader);
+	vehicle.Render(models[3], 10.0f, vehicleTrans, camera.PlanePosition(), view, proj, shader);
 
 	vehicleTrans = glm::translate(model, glm::vec3(1.0f, 0.0f, -30.0f));
-	vehicle.Render(models[3], 10.0f, vehicleTrans, view, proj, shader);
+	vehicle.Render(models[3], 10.0f, vehicleTrans, camera.PlanePosition(), view, proj, shader);
 
 	vehicleTrans = glm::translate(model, glm::vec3(7.0f, 0.0f, -20.0f));
-	vehicle.Render(models[3], 10.0f, vehicleTrans, view, proj, shader);
+	vehicle.Render(models[3], 10.0f, vehicleTrans, camera.PlanePosition(), view, proj, shader);
 
 	vehicleTrans = glm::translate(model, glm::vec3(19.0f, 0.0f, -10.0f));
-	vehicle.Render(models[3], 10.0f, vehicleTrans, view, proj, shader);
+	vehicle.Render(models[3], 10.0f, vehicleTrans, camera.PlanePosition(), view, proj, shader);
 
 
 		// *** Drawing object 4: The Sun

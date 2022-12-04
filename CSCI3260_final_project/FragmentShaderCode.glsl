@@ -46,6 +46,8 @@ uniform SpotLight spotLight;
 uniform vec3 viewPos; 
 uniform float shininess;
 
+uniform bool detected;
+
 // calculates the color when using a point light.
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 {
@@ -107,6 +109,12 @@ void main()
         norm = normalize(norm * 2.0 - 1.0);
     }
 
+
     vec3 viewDir = normalize(viewPos - Position);
-	Color = CalcPointLight(ptLight, norm, Position, viewDir) + CalcSpotLight(spotLight, norm, Position, viewDir);
+    vec3 tmpColor = CalcPointLight(ptLight, norm, Position, viewDir) + CalcSpotLight(spotLight, norm, Position, viewDir);
+
+    if(detected){
+        tmpColor = vec3(tmpColor.r * 5, tmpColor.g * 5, tmpColor.b);
+    }
+	    Color = tmpColor;
 }
