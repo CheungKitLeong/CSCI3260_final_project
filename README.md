@@ -1,3 +1,4 @@
+<!--
 # CSCI3260_final_project
 
 Add the object file (.obj) to `./CSCI3260_final_project/resourse/object` from blackboard by yourself
@@ -35,3 +36,6 @@ Bonus (20%)
 2. Additional meaningful objects. 10%
 
 3. Interesting and creative interactions. 10%
+-->
+
+A course project on OpenGL
